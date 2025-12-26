@@ -1,0 +1,159 @@
+{
+  "version": "2024-12-19",
+  "sectors": [
+    {
+      "id": "technology",
+      "name": "Technology",
+      "weight": 1.15,
+      "industries": [
+        { "id": "semiconductors", "name": "Semiconductors", "instruments": ["Foundries", "Fabless", "Equipment", "Memory"] },
+        { "id": "software", "name": "Software", "instruments": ["SaaS", "Productivity", "Developer Tools"] },
+        { "id": "cybersecurity", "name": "Cybersecurity", "instruments": ["Network Security", "Endpoint", "Identity"] },
+        { "id": "hardware", "name": "Hardware", "instruments": ["PCs", "Phones", "Servers", "Networking"] }
+      ]
+    },
+    {
+      "id": "financials",
+      "name": "Financials",
+      "weight": 1.05,
+      "industries": [
+        { "id": "banks", "name": "Banks", "instruments": ["Money-Center", "Regionals", "Payments"] },
+        { "id": "insurance", "name": "Insurance", "instruments": ["P&C", "Life", "Reinsurance"] },
+        { "id": "asset-management", "name": "Asset Management", "instruments": ["Traditional", "Alts", "Broker-Dealers"] },
+        { "id": "fintech", "name": "FinTech", "instruments": ["Neobanks", "Processors", "Lending"] }
+      ]
+    },
+    {
+      "id": "industrials",
+      "name": "Industrials",
+      "weight": 1.0,
+      "industries": [
+        { "id": "aerospace-defense", "name": "Aerospace & Defense", "instruments": ["Defense Primes", "Space", "Suppliers"] },
+        { "id": "transportation", "name": "Transportation", "instruments": ["Airlines", "Rails", "Logistics"] },
+        { "id": "machinery", "name": "Machinery", "instruments": ["Construction", "Agriculture", "Industrial"] },
+        { "id": "construction", "name": "Construction", "instruments": ["Builders", "Materials", "Services"] }
+      ]
+    },
+    {
+      "id": "consumer-discretionary",
+      "name": "Consumer Discretionary",
+      "weight": 0.95,
+      "industries": [
+        { "id": "autos", "name": "Autos / EV", "instruments": ["OEMs", "Suppliers", "Batteries"] },
+        { "id": "retail", "name": "Retail", "instruments": ["E-commerce", "Big Box", "Specialty"] },
+        { "id": "travel", "name": "Travel & Leisure", "instruments": ["Hotels", "Cruises", "Online Travel"] }
+      ]
+    },
+    {
+      "id": "consumer-staples",
+      "name": "Consumer Staples",
+      "weight": 0.9,
+      "industries": [
+        { "id": "beverage", "name": "Beverage", "instruments": ["Alcohol", "Soft Drinks", "Packaged Water"] },
+        { "id": "food", "name": "Food & HPC", "instruments": ["Packaged Food", "Household", "Personal Care"] },
+        { "id": "agri-business", "name": "Agri Business", "instruments": ["Inputs", "Distributors", "Brands"] }
+      ]
+    },
+    {
+      "id": "energy",
+      "name": "Energy",
+      "weight": 1.0,
+      "industries": [
+        { "id": "upstream", "name": "E&P", "instruments": ["Integrated", "Independents", "NatGas"] },
+        { "id": "services", "name": "Oil Services", "instruments": ["Drillers", "OFs", "Maintenance"] },
+        { "id": "refining", "name": "Refining & Marketing", "instruments": ["Crack", "Retail", "Biofuels"] },
+        { "id": "renewables", "name": "Renewables", "instruments": ["Solar", "Wind", "Storage"] }
+      ]
+    },
+    {
+      "id": "materials",
+      "name": "Materials",
+      "weight": 0.9,
+      "industries": [
+        { "id": "metals-mining", "name": "Metals & Mining", "instruments": ["Iron Ore", "Coal", "Industrial Metals"] },
+        { "id": "chemicals", "name": "Chemicals", "instruments": ["Specialty", "Commodity", "Fertilizers"] },
+        { "id": "paper", "name": "Paper & Packaging", "instruments": ["Containerboard", "Specialty", "Pulp"] }
+      ]
+    },
+    {
+      "id": "health-care",
+      "name": "Health Care",
+      "weight": 0.95,
+      "industries": [
+        { "id": "pharma", "name": "Pharma", "instruments": ["Large Cap", "Generics", "Vaccines"] },
+        { "id": "biotech", "name": "Biotech", "instruments": ["Large", "Mid", "SMID"] },
+        { "id": "medical-devices", "name": "Medical Devices", "instruments": ["Equipment", "Diagnostics", "Implants"] },
+        { "id": "providers", "name": "Providers", "instruments": ["Hospitals", "Managed Care", "Clinics"] }
+      ]
+    },
+    {
+      "id": "utilities",
+      "name": "Utilities",
+      "weight": 0.6,
+      "industries": [
+        { "id": "electric", "name": "Electric Utilities", "instruments": ["Regulated", "Merchant", "Grid"] },
+        { "id": "water", "name": "Water Utilities", "instruments": ["Municipal", "Private", "Infrastructure"] }
+      ]
+    },
+    {
+      "id": "real-estate",
+      "name": "Real Estate",
+      "weight": 0.7,
+      "industries": [
+        { "id": "residential", "name": "Residential REITs", "instruments": ["Apartments", "Single Family", "Manufactured"] },
+        { "id": "commercial", "name": "Commercial REITs", "instruments": ["Office", "Retail", "Industrial"] },
+        { "id": "data-center", "name": "Data Center REITs", "instruments": ["Hyperscale", "Colocation"] }
+      ]
+    },
+    {
+      "id": "communications",
+      "name": "Communications",
+      "weight": 0.8,
+      "industries": [
+        { "id": "media", "name": "Media", "instruments": ["Streaming", "Broadcast", "Advertising"] },
+        { "id": "telecom", "name": "Telecom", "instruments": ["Wireless", "Wireline", "Towercos"] }
+      ]
+    },
+    {
+      "id": "fx",
+      "name": "FX",
+      "weight": 0.55,
+      "industries": [
+        { "id": "g10", "name": "G10 Majors", "instruments": ["USD", "EUR", "JPY", "GBP", "CHF", "AUD", "NZD", "CAD"] },
+        { "id": "em-fx", "name": "EM FX Basket", "instruments": ["CNH", "MXN", "BRL", "INR", "ZAR"] }
+      ]
+    },
+    {
+      "id": "rates",
+      "name": "Rates / Credit",
+      "weight": 0.65,
+      "industries": [
+        { "id": "ust", "name": "US Treasuries", "instruments": ["2Y", "10Y", "30Y", "TIPS"] },
+        { "id": "bunds", "name": "Bunds & Gilts", "instruments": ["Bund", "Gilt", "OAT"] },
+        { "id": "credit", "name": "Credit", "instruments": ["IG", "HY", "EM Sovereign"] }
+      ]
+    },
+    {
+      "id": "commodities",
+      "name": "Commodities",
+      "weight": 1.1,
+      "industries": [
+        { "id": "metals", "name": "Metals", "instruments": ["Gold", "Silver", "Copper", "Aluminum", "Zinc", "Nickel", "Tin", "Iron Ore", "Lithium", "Uranium"] },
+        { "id": "energy-commodities", "name": "Energy", "instruments": ["WTI", "Brent", "Gasoline", "Nat Gas", "Heating Oil", "Coal", "LNG"] },
+        { "id": "agriculture", "name": "Agriculture", "instruments": ["Corn", "Wheat", "Soybeans", "Soy Meal", "Soy Oil", "Rice", "Sugar", "Coffee", "Cocoa", "Cotton", "Orange Juice"] },
+        { "id": "livestock", "name": "Livestock", "instruments": ["Live Cattle", "Feeder Cattle", "Lean Hogs"] },
+        { "id": "lumber", "name": "Forestry / Wood", "instruments": ["Lumber"] }
+      ]
+    },
+    {
+      "id": "crypto",
+      "name": "Crypto",
+      "weight": 0.4,
+      "industries": [
+        { "id": "majors", "name": "Majors", "instruments": ["BTC", "ETH", "L1 Basket"] },
+        { "id": "exchanges", "name": "Exchanges", "instruments": ["Listed", "Private"] }
+      ]
+    }
+  ]
+}
+

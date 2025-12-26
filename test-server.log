@@ -1,0 +1,24 @@
+[dotenv@17.2.3] injecting env (1) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+Initializing data services...
+Initializing update service...
+Starting data update...
+Ingesting data from sources...
+
+✅ MapperLab.co server running on http://localhost:3000
+📊 API endpoints available at http://localhost:3000/api/*
+🔄 Automatic updates scheduled (hourly + every 6 hours)
+
+Warning: Could not fetch https://feeds.reuters.com/reuters/marketsNews: getaddrinfo ENOTFOUND feeds.reuters.com
+Warning: Could not fetch https://feeds.reuters.com/reuters/businessNews: getaddrinfo ENOTFOUND feeds.reuters.com
+Warning: Could not fetch https://feeds.reuters.com/reuters/topNews: getaddrinfo ENOTFOUND feeds.reuters.com
+Warning: Could not fetch https://www.bankofengland.co.uk/news: Invalid character in tag name
+Line: 41
+Column: 33
+Char: ;
+Warning: Could not fetch https://www.bls.gov/feed/bls_news.rss: Status code 403
+Warning: Could not fetch https://www.boj.or.jp/en/announcements/release_2024/index.htm: Feed not recognized as RSS 1 or 2.
+Fetched 51 events and 0 indicators
+Analyzing sectors with AI...
+Processing 63 items in batches of 3...
+Processing batch 1/21: Technology, Semiconductors, Software
+Rate limit hit for technology, waiting 4000ms before retry...
