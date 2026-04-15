@@ -3,8 +3,11 @@
 import { escHtml, relTime, formatScore, scoreToTextColor, scoreToDirection, scoreToIntensity, sparklineSVG, gaugeSVG } from './utils.js';
 import { fetchTimeline, fetchSources } from './api.js';
 
+let _initialized = false;
+
 /**
  * Initialize the detail panel: wire close button and Escape key.
+ * Safe to call multiple times — only wires listeners once.
  * @param {HTMLElement} panel - the #detail-panel element
  */
 export function initSidebar(panel) {
@@ -12,11 +15,14 @@ export function initSidebar(panel) {
   if (closeBtn) {
     closeBtn.addEventListener('click', () => closeSidebar(panel));
   }
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !panel.classList.contains('hidden')) {
-      closeSidebar(panel);
-    }
-  });
+  if (!_initialized) {
+    _initialized = true;
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && !panel.classList.contains('hidden')) {
+        closeSidebar(panel);
+      }
+    });
+  }
 }
 
 /**
