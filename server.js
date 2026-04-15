@@ -71,6 +71,17 @@ app.get('/api/score/:id', (req, res) => {
   }
 });
 
+app.get('/api/events', (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit) || 50, 200);
+    const events = dataStore.getEvents().slice(0, limit);
+    res.json(events);
+  } catch (error) {
+    console.error('Error getting events:', error);
+    res.status(500).json({ error: 'Failed to get events' });
+  }
+});
+
 // Get sources for a sector/industry
 app.get('/api/sources/:id', (req, res) => {
   try {
