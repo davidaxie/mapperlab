@@ -1,0 +1,126 @@
+{
+  "_meta": {
+    "description": "Sector correlation cascades for MapperLab. When a source_node moves by >= trigger_threshold points in trigger_direction during an update cycle, apply secondary_deltas at 0.5x weight to correlated nodes.",
+    "version": "2026-04-15"
+  },
+  "cascades": [
+    {
+      "source_node": "energy-commodities",
+      "trigger_threshold": 8,
+      "direction": "up",
+      "secondary_deltas": {
+        "transportation": -4,
+        "consumer-discretionary": -3,
+        "chemicals": -3,
+        "utilities": -2,
+        "retail": -2
+      }
+    },
+    {
+      "source_node": "energy-commodities",
+      "trigger_threshold": 8,
+      "direction": "down",
+      "secondary_deltas": {
+        "transportation": 4,
+        "consumer-discretionary": 3,
+        "chemicals": 3,
+        "utilities": 3,
+        "retail": 2
+      }
+    },
+    {
+      "source_node": "rates",
+      "trigger_threshold": 6,
+      "direction": "down",
+      "secondary_deltas": {
+        "real-estate": 5,
+        "utilities": 4,
+        "residential": 6,
+        "software": 4,
+        "biotech": 5,
+        "fintech": 3
+      }
+    },
+    {
+      "source_node": "rates",
+      "trigger_threshold": 6,
+      "direction": "up",
+      "secondary_deltas": {
+        "real-estate": -5,
+        "utilities": -4,
+        "residential": -6,
+        "software": -4,
+        "biotech": -5,
+        "fintech": -3
+      }
+    },
+    {
+      "source_node": "semiconductors",
+      "trigger_threshold": 10,
+      "direction": "down",
+      "secondary_deltas": {
+        "hardware": -6,
+        "software": -3,
+        "data-center": -4,
+        "industrials": -3,
+        "technology": -2
+      }
+    },
+    {
+      "source_node": "semiconductors",
+      "trigger_threshold": 10,
+      "direction": "up",
+      "secondary_deltas": {
+        "hardware": 5,
+        "software": 3,
+        "data-center": 4,
+        "industrials": 2
+      }
+    },
+    {
+      "source_node": "fx",
+      "trigger_threshold": 5,
+      "direction": "up",
+      "secondary_deltas": {
+        "metals": -4,
+        "commodities": -5,
+        "energy-commodities": -3,
+        "agriculture": -3,
+        "em-fx": -4
+      }
+    },
+    {
+      "source_node": "fx",
+      "trigger_threshold": 5,
+      "direction": "down",
+      "secondary_deltas": {
+        "metals": 4,
+        "commodities": 5,
+        "energy-commodities": 3,
+        "agriculture": 3,
+        "em-fx": 4
+      }
+    },
+    {
+      "source_node": "financials",
+      "trigger_threshold": 8,
+      "direction": "down",
+      "secondary_deltas": {
+        "real-estate": -4,
+        "consumer-discretionary": -3,
+        "industrials": -2,
+        "credit": -5
+      }
+    },
+    {
+      "source_node": "crypto",
+      "trigger_threshold": 12,
+      "direction": "up",
+      "secondary_deltas": {
+        "fintech": 4,
+        "technology": 2,
+        "asset-management": 3
+      }
+    }
+  ]
+}
