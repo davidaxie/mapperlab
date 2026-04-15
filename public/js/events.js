@@ -39,11 +39,12 @@ export function renderTicker(trackEl, events) {
  * @param {HTMLElement|null} countEl - the #events-count element (optional)
  */
 export function renderEventCards(feedEl, events, countEl) {
+  const isArr = Array.isArray(events);
   if (countEl) {
-    countEl.textContent = events.length > 0 ? `${events.length} events` : '';
+    countEl.textContent = isArr && events.length > 0 ? `${events.length} events` : '';
   }
 
-  if (!Array.isArray(events) || events.length === 0) {
+  if (!isArr || events.length === 0) {
     feedEl.innerHTML = '<p class="muted">No events yet — click ↻ Update to pull live data.</p>';
     return;
   }
