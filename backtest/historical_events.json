@@ -1,0 +1,529 @@
+{
+  "_meta": {
+    "description": "Historical policy events for MapperLab backtesting. Events are replayed through impact_matrix.json to reconstruct historical score timeseries.",
+    "event_count": 65,
+    "date_range": "2020-03-15 to 2026-04-01"
+  },
+  "events": [
+    {
+      "date": "2020-03-15",
+      "event_id": "FED_QE_ANNOUNCEMENT",
+      "label": "Fed COVID QE: unlimited asset purchases announced",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Fed announced unlimited QE in response to COVID-19 pandemic market dislocations"
+    },
+    {
+      "date": "2020-03-27",
+      "event_id": "FISCAL_STIMULUS_LARGE",
+      "label": "CARES Act signed: $2.2T fiscal stimulus",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Largest emergency relief package in US history at the time"
+    },
+    {
+      "date": "2020-04-12",
+      "event_id": "OPEC_PRODUCTION_CUT",
+      "label": "OPEC+ mega-cut: 9.7mb/d production cut agreed",
+      "magnitude": 3,
+      "inverse": false,
+      "notes": "Historic OPEC+ deal after oil prices went negative; largest coordinated cut ever"
+    },
+    {
+      "date": "2020-11-09",
+      "event_id": "SOFT_LANDING_CONFIRMED",
+      "label": "Pfizer vaccine 90% effective - risk-on surge",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Pfizer/BioNTech vaccine trial results sparked massive risk-on rally; best proxy for positive macro shock"
+    },
+    {
+      "date": "2020-12-27",
+      "event_id": "FISCAL_STIMULUS_LARGE",
+      "label": "COVID Relief Act signed: $900B stimulus",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Second major COVID relief package including $600 direct payments"
+    },
+    {
+      "date": "2021-03-11",
+      "event_id": "FISCAL_STIMULUS_LARGE",
+      "label": "American Rescue Plan: $1.9T stimulus signed",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "$1,400 direct payments, expanded unemployment, state/local aid; major reflationary impulse"
+    },
+    {
+      "date": "2021-11-03",
+      "event_id": "FED_QT_ANNOUNCEMENT",
+      "label": "Fed announces taper of asset purchases",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "FOMC announced start of tapering asset purchases by $15B/month; beginning of tightening cycle"
+    },
+    {
+      "date": "2021-11-30",
+      "event_id": "HOT_CPI",
+      "label": "CPI 6.8% YoY - highest since 1982",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "November 2021 CPI print confirmed inflation was not transitory"
+    },
+    {
+      "date": "2021-12-15",
+      "event_id": "FED_QT_ANNOUNCEMENT",
+      "label": "Fed accelerates taper, signals 3 hikes in 2022",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Fed doubled taper pace to $30B/month and dot plot showed 3 rate hikes in 2022"
+    },
+    {
+      "date": "2022-02-24",
+      "event_id": "SANCTIONS_NEW_MAJOR",
+      "label": "Russia invades Ukraine - sweeping sanctions announced",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "US, EU, UK announced unprecedented financial sanctions on Russia including SWIFT exclusion"
+    },
+    {
+      "date": "2022-02-24",
+      "event_id": "STRAIT_OF_HORMUZ_DISRUPTION",
+      "label": "Ukraine invasion: global commodity supply shock",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Russia/Ukraine war disrupted global energy and grain supply chains; energy disruption proxy"
+    },
+    {
+      "date": "2022-03-16",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 25bps - first hike since 2018",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "First rate hike of the 2022 tightening cycle; liftoff from zero lower bound"
+    },
+    {
+      "date": "2022-03-28",
+      "event_id": "YIELD_CURVE_INVERSION",
+      "label": "10Y-2Y yield curve inverts for first time since 2019",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "2s10s spread turned negative; classic recession predictor"
+    },
+    {
+      "date": "2022-05-04",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 50bps - largest since 2000",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "50bps hike signaled aggressive tightening; Powell said 75bps was not actively considered (walked back)"
+    },
+    {
+      "date": "2022-06-15",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 75bps - largest since 1994",
+      "magnitude": 3,
+      "inverse": false,
+      "notes": "Emergency-like 75bps hike after hot May CPI print; hawkish pivot"
+    },
+    {
+      "date": "2022-07-27",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 75bps - second consecutive 75bps",
+      "magnitude": 3,
+      "inverse": false,
+      "notes": "Fed funds rate to 2.25-2.50%; second consecutive 75bps hike"
+    },
+    {
+      "date": "2022-08-16",
+      "event_id": "IRA_TAX_CREDIT_ROLLBACK",
+      "label": "Inflation Reduction Act signed: $369B clean energy investment",
+      "magnitude": 2,
+      "inverse": true,
+      "notes": "Inverse of rollback = tailwind for renewables, EVs, utilities; largest US climate investment ever"
+    },
+    {
+      "date": "2022-09-21",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 75bps for third consecutive time",
+      "magnitude": 3,
+      "inverse": false,
+      "notes": "Third consecutive 75bps hike; dot plot showed terminal rate above 4.5%"
+    },
+    {
+      "date": "2022-10-05",
+      "event_id": "OPEC_PRODUCTION_CUT",
+      "label": "OPEC+ cuts 2mb/d despite US pressure",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Largest OPEC+ cut since pandemic; geopolitically sensitive ahead of US midterms"
+    },
+    {
+      "date": "2022-11-02",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 75bps - fourth consecutive 75bps",
+      "magnitude": 3,
+      "inverse": false,
+      "notes": "Fourth consecutive 75bps; Powell signaled potential step-down in pace"
+    },
+    {
+      "date": "2022-12-14",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 50bps, signals slowdown in pace",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Step-down from 75bps; dot plot terminal rate raised to 5.1%"
+    },
+    {
+      "date": "2022-12-20",
+      "event_id": "BOJ_RATE_HIKE",
+      "label": "BoJ surprises with YCC band widening to ±0.5%",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Unexpected YCC adjustment; sparked yen rally and global bond selloff"
+    },
+    {
+      "date": "2023-02-01",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 25bps - 8th consecutive hike",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Fed funds rate to 4.50-4.75%; step-down to 25bps pace"
+    },
+    {
+      "date": "2023-03-10",
+      "event_id": "RECESSION_SIGNAL",
+      "label": "Silicon Valley Bank collapse - bank run, FDIC takeover",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Second largest US bank failure in history; triggered banking sector contagion fears"
+    },
+    {
+      "date": "2023-03-10",
+      "event_id": "CRYPTO_SEC_ENFORCEMENT",
+      "label": "SVB collapse triggers crypto contagion, Signature Bank closed",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Signature Bank closed by regulators; crypto-friendly banks under pressure"
+    },
+    {
+      "date": "2023-05-03",
+      "event_id": "FED_RATE_HIKE_25BPS",
+      "label": "Fed hikes 25bps - last hike in cycle (peak 5.25-5.50%)",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Final hike of tightening cycle; fed funds rate at 5.25-5.50% - 22-year high"
+    },
+    {
+      "date": "2023-06-01",
+      "event_id": "FISCAL_AUSTERITY",
+      "label": "Debt ceiling deal: Fiscal Responsibility Act caps spending",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Bipartisan deal suspended debt ceiling through Jan 2025; discretionary spending caps imposed"
+    },
+    {
+      "date": "2023-09-20",
+      "event_id": "STRONG_JOBS_REPORT",
+      "label": "Soft landing narrative confirmed: jobs strong, inflation falling",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Labor market resilience alongside cooling inflation supported soft landing thesis"
+    },
+    {
+      "date": "2023-10-07",
+      "event_id": "SANCTIONS_NEW_MAJOR",
+      "label": "Israel-Hamas war begins: Middle East escalation",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Hamas attack on Israel; geopolitical risk premium rose across energy and defense"
+    },
+    {
+      "date": "2023-10-17",
+      "event_id": "EXPORT_CONTROL_CHIPS_ESCALATION",
+      "label": "BIS expands chip export controls: A100/H100 to China blocked",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Commerce Dept tightened Oct 2022 rules; closed loopholes and expanded country coverage"
+    },
+    {
+      "date": "2023-11-01",
+      "event_id": "HYPERSCALER_CAPEX_RAISE",
+      "label": "Microsoft, Google, Amazon raise AI capex guidance",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Q3 2023 earnings showed AI-driven capex acceleration across hyperscalers"
+    },
+    {
+      "date": "2024-01-10",
+      "event_id": "CRYPTO_ETF_APPROVAL",
+      "label": "SEC approves first spot Bitcoin ETFs (BlackRock IBIT, Fidelity FBTC)",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Landmark SEC approval after decade of rejections; 11 ETFs launched same day"
+    },
+    {
+      "date": "2024-01-23",
+      "event_id": "BOJ_RATE_HIKE",
+      "label": "BoJ signals policy normalization, end of negative rates near",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "BoJ held rates but Ueda signaled imminent end to negative rate policy"
+    },
+    {
+      "date": "2024-03-19",
+      "event_id": "BOJ_RATE_HIKE",
+      "label": "BoJ exits negative rate policy - first hike since 2007",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "BoJ raised rates from -0.1% to 0-0.1%; ended YCC and ETF purchases"
+    },
+    {
+      "date": "2024-04-23",
+      "event_id": "HYPERSCALER_CAPEX_RAISE",
+      "label": "Meta, Microsoft, Alphabet raise AI capex to record levels",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Q1 2024 earnings; Meta raised capex guide to $35-40B, MSFT and Alphabet also raised significantly"
+    },
+    {
+      "date": "2024-07-31",
+      "event_id": "BOJ_RATE_HIKE",
+      "label": "BoJ hikes to 0.25% - surprises market, yen carry unwind",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Surprise hike triggered massive yen carry trade unwind; global equity selloff in early August"
+    },
+    {
+      "date": "2024-09-18",
+      "event_id": "FED_RATE_CUT_25BPS",
+      "label": "Fed cuts 50bps - first cut since 2020, signals easing cycle",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Larger-than-expected 50bps cut; fed funds rate to 4.75-5.00%; Powell emphasized not behind curve"
+    },
+    {
+      "date": "2024-10-08",
+      "event_id": "SOFT_LANDING_CONFIRMED",
+      "label": "Strong September jobs: 254k jobs, unemployment 4.1%",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Blowout jobs report reinforced soft landing narrative; crushed recession fears"
+    },
+    {
+      "date": "2024-11-06",
+      "event_id": "IRA_TAX_CREDIT_ROLLBACK",
+      "label": "Trump election victory: IRA rollback risk, tariff signals",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Trump win signals rollback of IRA clean energy credits; headwind for renewables and EVs"
+    },
+    {
+      "date": "2024-11-06",
+      "event_id": "CHINA_TARIFF_ESCALATION",
+      "label": "Trump election: 60% China tariff threat returns",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Campaign promise of 60%+ tariffs on China signaled renewed trade war"
+    },
+    {
+      "date": "2024-11-06",
+      "event_id": "CRYPTO_REGULATORY_CLARITY",
+      "label": "Trump election: pro-crypto administration signals regulatory clarity",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Trump pledged to make US a crypto hub; Gensler SEC departure expected; crypto rallied"
+    },
+    {
+      "date": "2024-11-07",
+      "event_id": "FED_RATE_CUT_25BPS",
+      "label": "Fed cuts 25bps - second cut of 2024",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Fed funds rate to 4.50-4.75%; Fed acknowledged election uncertainty but maintained easing path"
+    },
+    {
+      "date": "2024-12-11",
+      "event_id": "FED_RATE_CUT_25BPS",
+      "label": "Fed cuts 25bps - third cut of 2024, signals slower 2025 pace",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Fed funds rate to 4.25-4.50%; dot plot shifted to 2 cuts in 2025 vs prior 4; hawkish cut"
+    },
+    {
+      "date": "2025-01-20",
+      "event_id": "CHINA_TARIFF_ESCALATION",
+      "label": "Trump inauguration: executive orders on tariffs, border",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Day-one executive orders signaled aggressive tariff agenda; universal baseline tariff threatened"
+    },
+    {
+      "date": "2025-02-01",
+      "event_id": "CHINA_TARIFF_ESCALATION",
+      "label": "Trump imposes 10% tariffs on China",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "First concrete tariff action; 10% on all Chinese imports effective Feb 4"
+    },
+    {
+      "date": "2025-03-04",
+      "event_id": "CHINA_TARIFF_ESCALATION",
+      "label": "Trump raises China tariffs to 20%",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Second tranche; cumulative 20% tariff on China imports; China retaliated with targeted tariffs"
+    },
+    {
+      "date": "2025-04-02",
+      "event_id": "CHINA_TARIFF_ESCALATION",
+      "label": "Liberation Day: 145% tariffs on China announced",
+      "magnitude": 3,
+      "inverse": false,
+      "notes": "Escalation to 145% on China; markets sold off sharply; recession fears spiked"
+    },
+    {
+      "date": "2025-04-02",
+      "event_id": "SANCTIONS_NEW_MAJOR",
+      "label": "Liberation Day: tariffs on 60+ countries announced",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Universal baseline tariffs on all trading partners; largest tariff action since Smoot-Hawley"
+    },
+    {
+      "date": "2025-04-09",
+      "event_id": "CHINA_TARIFF_TRUCE",
+      "label": "90-day pause on tariffs for non-China countries",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Trump paused reciprocal tariffs for most countries except China; markets surged"
+    },
+    {
+      "date": "2025-05-12",
+      "event_id": "CHINA_TARIFF_TRUCE",
+      "label": "US-China 90-day trade truce: tariffs reduced to 30% from 145%",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Geneva talks produced 90-day truce; US reduced China tariffs to 30%, China cut US tariffs to 10%"
+    },
+    {
+      "date": "2025-05-20",
+      "event_id": "STRAIT_OF_HORMUZ_DISRUPTION",
+      "label": "Iran-US tensions: Hormuz shipping risk premium rises",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Nuclear negotiations breakdown raised Hormuz closure risk; tanker rates spiked"
+    },
+    {
+      "date": "2025-06-01",
+      "event_id": "EXPORT_CONTROL_CHIPS_ESCALATION",
+      "label": "New AI chip export controls targeting China's cloud providers",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "BIS rule restricting advanced AI chips to Chinese hyperscalers and cloud providers"
+    },
+    {
+      "date": "2025-06-15",
+      "event_id": "CRYPTO_REGULATORY_CLARITY",
+      "label": "GENIUS Act signed: first US federal stablecoin framework",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Bipartisan legislation establishing federal licensing for stablecoin issuers"
+    },
+    {
+      "date": "2025-07-15",
+      "event_id": "FISCAL_AUSTERITY",
+      "label": "DOGE efficiency mandate: federal spending cuts announced",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "DOGE-driven spending reduction targets; headwind for government contractors and services"
+    },
+    {
+      "date": "2025-08-01",
+      "event_id": "BASEL_CAPITAL_RELIEF",
+      "label": "Basel III endgame revised: US banks get capital relief",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Fed/OCC/FDIC released revised Basel III endgame with significantly lower capital requirements vs 2023 proposal"
+    },
+    {
+      "date": "2025-09-01",
+      "event_id": "HOT_CPI",
+      "label": "Tariff pass-through drives CPI above 4%",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Tariff-driven goods inflation pushed headline CPI above 4%; stagflation risk narrative rises"
+    },
+    {
+      "date": "2025-10-01",
+      "event_id": "CHINA_FISCAL_STIMULUS_LARGE",
+      "label": "China announces 10T RMB fiscal package",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Major fiscal stimulus targeting domestic consumption and infrastructure; commodity tailwind"
+    },
+    {
+      "date": "2025-11-15",
+      "event_id": "OPEC_PRODUCTION_INCREASE",
+      "label": "OPEC+ unwind: UAE pushes for 500k b/d production increase",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "OPEC+ began unwinding production cuts; UAE and Saudi Arabia added barrels"
+    },
+    {
+      "date": "2025-12-01",
+      "event_id": "COOL_CPI",
+      "label": "CPI falls to 2.8% as tariff effects plateau",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Inflation deceleration as tariff one-time price level effects faded"
+    },
+    {
+      "date": "2025-12-15",
+      "event_id": "CYBER_MANDATE_NEW",
+      "label": "Executive Order on AI/cyber resilience for critical infrastructure",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "New cybersecurity mandates for critical infrastructure; tailwind for cybersecurity vendors"
+    },
+    {
+      "date": "2026-01-24",
+      "event_id": "BOJ_RATE_HIKE",
+      "label": "BoJ hikes to 0.75% - continued normalization",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "BoJ continued hiking cycle; yen strength pressures exporters"
+    },
+    {
+      "date": "2026-02-05",
+      "event_id": "EXPORT_CONTROL_CHIPS_ESCALATION",
+      "label": "BIS adds 140 Chinese entities to entity list - expanded chip controls",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Largest single-day entity list expansion; covered AI hardware, memory, and fab equipment"
+    },
+    {
+      "date": "2026-03-01",
+      "event_id": "ANTITRUST_TECH_BLOCK",
+      "label": "EU fines Apple, Meta €4B under DMA - new enforcement era",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "First major DMA enforcement actions; set precedent for platform interoperability requirements"
+    },
+    {
+      "date": "2026-03-15",
+      "event_id": "HYPERSCALER_CAPEX_RAISE",
+      "label": "Meta $65B capex, Microsoft $80B capex - AI spending accelerates",
+      "magnitude": 2,
+      "inverse": false,
+      "notes": "Q4 2025/FY2026 capex guidance raises; AI infrastructure arms race continues"
+    },
+    {
+      "date": "2026-04-01",
+      "event_id": "FED_RATE_CUT_25BPS",
+      "label": "Fed cuts 25bps - first 2026 cut, signals 2-3 more",
+      "magnitude": 1,
+      "inverse": false,
+      "notes": "Fed resumes easing as growth slows; tariff uncertainty weighs on business investment"
+    }
+  ]
+}
