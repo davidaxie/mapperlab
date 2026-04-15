@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MapperLab — Political Tailwind / Headwind Mapper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ── Header ── -->
+  <header class="header">
+    <div class="header-left">
+      <span class="logo">MapperLab</span>
+      <span class="tagline">Political Tailwind / Headwind Mapper</span>
+    </div>
+    <div class="header-right">
+      <div class="legend">
+        <span class="legend-item tailwind-strong">Strong Tailwind</span>
+        <span class="legend-item tailwind">Tailwind</span>
+        <span class="legend-item neutral">Neutral</span>
+        <span class="legend-item headwind">Headwind</span>
+        <span class="legend-item headwind-strong">Strong Headwind</span>
+      </div>
+      <div class="status-bar">
+        <span id="status-dot" class="dot dot-gray"></span>
+        <span id="status-text">Loading…</span>
+        <button id="refresh-btn" class="btn-refresh" title="Trigger manual update">↻ Update</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main heatmap ── -->
+  <main>
+    <div id="heatmap" class="heatmap-grid">
+      <div class="loading-msg">Fetching macro data…</div>
+    </div>
+  </main>
+
+  <!-- ── Event feed sidebar ── -->
+  <aside id="sidebar" class="sidebar hidden">
+    <div class="sidebar-header">
+      <h2 id="sidebar-title">Events</h2>
+      <button id="sidebar-close" class="btn-close">✕</button>
+    </div>
+    <div id="sidebar-score" class="sidebar-score-row"></div>
+    <div id="sidebar-timeline" class="sidebar-section">
+      <h3>Recent Score History</h3>
+      <ol id="timeline-list" class="timeline-list"></ol>
+    </div>
+    <div id="sidebar-sources" class="sidebar-section">
+      <h3>Current Sources</h3>
+      <ul id="sources-list" class="sources-list"></ul>
+    </div>
+  </aside>
+
+  <!-- ── Recent events log ── -->
+  <section class="events-section">
+    <h2 class="events-title">Recent Events</h2>
+    <div id="events-feed" class="events-feed">
+      <p class="muted">Waiting for data…</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>MapperLab.co &nbsp;·&nbsp; Data is informational only — not investment advice.</span>
+    <span id="last-update-label" class="muted"></span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

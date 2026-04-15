@@ -1,0 +1,1081 @@
+{
+  "_meta": {
+    "version": "2026-04-15",
+    "description": "Policy event impact matrix for MapperLab.co. Maps policy events to sector score deltas. All deltas are additive adjustments to a 50-point neutral baseline (range 0-100). Confidence: high/medium/low.",
+    "scoring_notes": "Deltas are intended to be summed with decay applied. Multiple simultaneous events should be summed then clamped to [0,100]. Half-lives by category: monetary=90-180d, fiscal=12-36mo, trade/export_control=permanent until reversed, geopolitical=7-30d sentiment fade.",
+    "current_baseline": {
+      "as_of": "2026-04-15",
+      "regime": "Fed on hold 3.50-3.75%, BoJ normalizing, Hormuz supply disruption, IRA rollback, Section 232 50% metals tariffs, Basel III capital relief, US-China bilateral truce Nov 2025"
+    }
+  },
+
+  "policy_events": {
+
+    "FED_RATE_HIKE_25BPS": {
+      "label": "Fed rate hike +25bps",
+      "category": "monetary",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology":             -4,
+        "semiconductors":         -2,
+        "software":               -7,
+        "cybersecurity":          -4,
+        "ai_cloud":               -5,
+        "hardware":               -2,
+        "financials":             -1,
+        "banks": 3,
+        "insurance_life": 4,
+        "insurance_pc": 1,
+        "asset_management":       -2,
+        "fintech":                -4,
+        "industrials":            -3,
+        "aerospace_defense":      -1,
+        "transportation":         -3,
+        "machinery":              -3,
+        "construction":           -5,
+        "consumer_discretionary": -6,
+        "autos":                  -5,
+        "retail":                 -5,
+        "travel":                 -4,
+        "consumer_staples":       -1,
+        "energy_ep":              -2,
+        "oil_services":           -2,
+        "refining":               -1,
+        "renewables":             -6,
+        "materials":              -3,
+        "metals_mining":          -3,
+        "chemicals":              -2,
+        "health_care":            -2,
+        "pharma":                 -2,
+        "biotech":                -6,
+        "medical_devices":        -2,
+        "providers":              -1,
+        "utilities":              -5,
+        "real_estate":            -7,
+        "residential_reits":      -8,
+        "commercial_reits":       -6,
+        "data_center_reits":      -4,
+        "communications":         -3,
+        "media":                  -3,
+        "telecom":                -2,
+        "fx_usd": 4,
+        "fx_eur":                 -2,
+        "fx_jpy":                 -3,
+        "fx_em":                  -5,
+        "rates_2y":               -8,
+        "rates_10y":              -4,
+        "rates_30y":              -3,
+        "credit_ig":              -3,
+        "credit_hy":              -5,
+        "credit_em":              -6,
+        "commodities_metals":     -4,
+        "gold":                   -5,
+        "copper":                 -3,
+        "commodities_energy":     -2,
+        "wti":                    -2,
+        "nat_gas":                -1,
+        "commodities_agriculture":-2,
+        "crypto_btc":             -5,
+        "crypto_eth":             -5,
+        "crypto_exchanges":       -4
+      }
+    },
+
+    "FED_RATE_CUT_25BPS": {
+      "label": "Fed rate cut -25bps",
+      "category": "monetary",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology": 4,
+        "semiconductors": 2,
+        "software": 7,
+        "cybersecurity": 4,
+        "ai_cloud": 5,
+        "hardware": 2,
+        "financials": 1,
+        "banks":                  -2,
+        "insurance_life":         -3,
+        "insurance_pc":           0,
+        "asset_management": 3,
+        "fintech": 5,
+        "industrials": 3,
+        "aerospace_defense": 1,
+        "transportation": 3,
+        "machinery": 3,
+        "construction": 5,
+        "consumer_discretionary": 6,
+        "autos": 5,
+        "retail": 5,
+        "travel": 4,
+        "consumer_staples": 1,
+        "energy_ep": 2,
+        "oil_services": 2,
+        "refining": 1,
+        "renewables": 6,
+        "materials": 3,
+        "metals_mining": 3,
+        "chemicals": 2,
+        "health_care": 2,
+        "pharma": 2,
+        "biotech": 6,
+        "medical_devices": 2,
+        "providers": 1,
+        "utilities": 5,
+        "real_estate": 8,
+        "residential_reits": 9,
+        "commercial_reits": 6,
+        "data_center_reits": 5,
+        "communications": 3,
+        "media": 3,
+        "telecom": 3,
+        "fx_usd":                 -4,
+        "fx_eur": 2,
+        "fx_jpy": 2,
+        "fx_em": 6,
+        "rates_2y": 10,
+        "rates_10y": 5,
+        "rates_30y": 4,
+        "credit_ig": 4,
+        "credit_hy": 7,
+        "credit_em": 8,
+        "commodities_metals": 4,
+        "gold": 6,
+        "copper": 3,
+        "commodities_energy": 2,
+        "wti": 2,
+        "nat_gas": 1,
+        "commodities_agriculture": 2,
+        "crypto_btc": 5,
+        "crypto_eth": 5,
+        "crypto_exchanges": 4
+      }
+    },
+
+    "FED_QE_ANNOUNCEMENT": {
+      "label": "Fed QE / asset purchase program announcement",
+      "category": "monetary",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology": 12,
+        "semiconductors": 6,
+        "software": 15,
+        "cybersecurity": 10,
+        "ai_cloud": 12,
+        "hardware": 6,
+        "financials": 8,
+        "banks": 5,
+        "insurance_life": 3,
+        "insurance_pc": 2,
+        "asset_management": 10,
+        "fintech": 10,
+        "industrials": 8,
+        "construction": 10,
+        "consumer_discretionary": 12,
+        "autos": 10,
+        "retail": 10,
+        "travel": 8,
+        "consumer_staples": 3,
+        "energy_ep": 8,
+        "renewables": 12,
+        "materials": 10,
+        "health_care": 6,
+        "biotech": 15,
+        "utilities": 8,
+        "real_estate": 15,
+        "residential_reits": 18,
+        "communications": 8,
+        "fx_usd":                 -8,
+        "fx_eur": 4,
+        "fx_em": 10,
+        "rates_10y": 8,
+        "rates_30y": 10,
+        "credit_ig": 8,
+        "credit_hy": 12,
+        "credit_em": 12,
+        "commodities_metals": 10,
+        "gold": 15,
+        "copper": 10,
+        "commodities_energy": 8,
+        "wti": 8,
+        "crypto_btc": 12,
+        "crypto_eth": 12
+      }
+    },
+
+    "FED_QT_ANNOUNCEMENT": {
+      "label": "Fed QT / balance sheet reduction announcement",
+      "category": "monetary",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology":             -10,
+        "semiconductors":         -5,
+        "software":               -13,
+        "cybersecurity":          -8,
+        "ai_cloud":               -9,
+        "hardware":               -5,
+        "financials":             -4,
+        "banks":                  -2,
+        "insurance_life":         0,
+        "asset_management":       -7,
+        "fintech":                -8,
+        "industrials":            -6,
+        "construction":           -8,
+        "consumer_discretionary": -10,
+        "autos":                  -8,
+        "retail":                 -8,
+        "travel":                 -7,
+        "energy_ep":              -5,
+        "renewables":             -10,
+        "materials":              -7,
+        "health_care":            -4,
+        "biotech":                -12,
+        "utilities":              -7,
+        "real_estate":            -12,
+        "residential_reits":      -15,
+        "communications":         -6,
+        "fx_usd": 6,
+        "fx_em":                  -10,
+        "rates_10y":              -6,
+        "credit_hy":              -10,
+        "credit_em":              -10,
+        "commodities_metals":     -7,
+        "gold":                   -10,
+        "crypto_btc":             -10,
+        "crypto_eth":             -10
+      }
+    },
+
+    "BOJ_RATE_HIKE": {
+      "label": "BoJ rate hike (yen carry trade unwind)",
+      "category": "monetary",
+      "confidence": "high",
+      "note": "BoJ normalization unwinds JPY-funded carry trades globally — broad risk-off signal",
+      "sector_deltas": {
+        "technology":             -5,
+        "software":               -6,
+        "financials":             -4,
+        "consumer_discretionary": -5,
+        "real_estate":            -4,
+        "fx_jpy": 15,
+        "fx_usd":                 -3,
+        "fx_em":                  -12,
+        "fx_mxn":                 -15,
+        "fx_brl":                 -12,
+        "rates_10y":              -3,
+        "credit_hy":              -6,
+        "credit_em":              -10,
+        "crypto_btc":             -8,
+        "crypto_eth":             -8
+      }
+    },
+
+    "YIELD_CURVE_INVERSION": {
+      "label": "Yield curve inversion (10Y < 2Y)",
+      "category": "monetary",
+      "confidence": "high",
+      "note": "Recession signal — 12-18 month leading indicator. Headwind for cyclicals, tailwind for defensives.",
+      "sector_deltas": {
+        "technology":             -8,
+        "semiconductors":         -10,
+        "industrials":            -10,
+        "consumer_discretionary": -12,
+        "autos":                  -12,
+        "travel":                 -10,
+        "energy_ep":              -6,
+        "materials":              -10,
+        "financials":             -8,
+        "banks":                  -10,
+        "consumer_staples": 4,
+        "health_care": 4,
+        "utilities": 5,
+        "real_estate":            -6,
+        "communications":         -3,
+        "rates_10y": 6,
+        "rates_30y": 8,
+        "credit_hy":              -10,
+        "credit_em":              -8,
+        "gold": 8,
+        "crypto_btc":             -8
+      }
+    },
+
+    "FISCAL_STIMULUS_LARGE": {
+      "label": "Major fiscal stimulus ($500B+ / >1.5% of GDP)",
+      "category": "fiscal",
+      "confidence": "medium",
+      "sector_deltas": {
+        "technology": 8,
+        "semiconductors": 15,
+        "ai_cloud": 10,
+        "industrials": 12,
+        "construction": 15,
+        "consumer_discretionary": 8,
+        "consumer_staples": 3,
+        "energy_ep": 5,
+        "renewables": 12,
+        "materials": 12,
+        "health_care": 6,
+        "utilities": 8,
+        "real_estate": 6,
+        "fx_usd":                 -3,
+        "rates_10y":              -5,
+        "rates_30y":              -7,
+        "credit_ig": 3,
+        "commodities_metals": 8,
+        "copper": 10,
+        "crypto_btc": 6
+      }
+    },
+
+    "FISCAL_AUSTERITY": {
+      "label": "Fiscal tightening / spending cuts / sequestration",
+      "category": "fiscal",
+      "confidence": "medium",
+      "sector_deltas": {
+        "technology":             -4,
+        "industrials":            -8,
+        "aerospace_defense":      -10,
+        "construction":           -8,
+        "consumer_discretionary": -5,
+        "health_care":            -5,
+        "providers":              -8,
+        "utilities":              -3,
+        "fx_usd": 2,
+        "rates_10y": 4,
+        "rates_30y": 5,
+        "credit_ig": 2
+      }
+    },
+
+    "EXPORT_CONTROL_CHIPS_ESCALATION": {
+      "label": "New semiconductor/AI chip export control (Entity List / BIS rule)",
+      "category": "trade",
+      "confidence": "high",
+      "note": "Permanent headwind until reversed. Revenue directly at risk for companies with China exposure.",
+      "sector_deltas": {
+        "technology":             -8,
+        "semiconductors":         -18,
+        "ai_cloud":               -12,
+        "hardware":               -10,
+        "software":               -3,
+        "cybersecurity":          -2,
+        "industrials":            -3,
+        "communications":         -5
+      }
+    },
+
+    "EXPORT_CONTROL_RELAXATION": {
+      "label": "Export control eased / license exception granted",
+      "category": "trade",
+      "confidence": "medium",
+      "sector_deltas": {
+        "technology": 7,
+        "semiconductors": 15,
+        "ai_cloud": 10,
+        "hardware": 8,
+        "software": 2
+      }
+    },
+
+    "TARIFF_STEEL_ALUMINUM_25PCT": {
+      "label": "New/escalated 25% tariff on steel & aluminum",
+      "category": "trade",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology":             -3,
+        "hardware":               -5,
+        "industrials":            -10,
+        "aerospace_defense":      -4,
+        "transportation":         -6,
+        "machinery":              -8,
+        "construction":           -8,
+        "consumer_discretionary": -5,
+        "autos":                  -12,
+        "energy_ep":              -4,
+        "utilities":              -5,
+        "materials":              -5,
+        "metals_mining_us": 12,
+        "chemicals":              -3,
+        "real_estate":            -4,
+        "fx_usd": 2
+      }
+    },
+
+    "CHINA_TARIFF_ESCALATION": {
+      "label": "US-China tariff escalation (+25% on broad goods)",
+      "category": "trade",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology":             -8,
+        "semiconductors":         -10,
+        "hardware":               -15,
+        "software":               -3,
+        "industrials":            -8,
+        "consumer_discretionary": -10,
+        "autos":                  -8,
+        "retail":                 -10,
+        "consumer_staples":       -5,
+        "materials":              -5,
+        "copper":                 -8,
+        "commodities_agriculture":-12,
+        "soybeans":               -18,
+        "fx_cnh":                 -15,
+        "fx_usd": 3,
+        "fx_mxn":                 -5,
+        "fx_aud":                 -5,
+        "crypto_btc":             -6
+      }
+    },
+
+    "CHINA_TARIFF_TRUCE": {
+      "label": "US-China tariff truce / trade deal announcement",
+      "category": "trade",
+      "confidence": "medium",
+      "sector_deltas": {
+        "technology": 8,
+        "semiconductors": 10,
+        "hardware": 12,
+        "industrials": 7,
+        "consumer_discretionary": 8,
+        "autos": 6,
+        "retail": 8,
+        "consumer_staples": 4,
+        "materials": 6,
+        "copper": 10,
+        "commodities_agriculture": 10,
+        "soybeans": 18,
+        "fx_cnh": 10,
+        "fx_aud": 6,
+        "fx_mxn": 6
+      }
+    },
+
+    "CHINA_FISCAL_STIMULUS_LARGE": {
+      "label": "China major fiscal stimulus ($1T+ / NDRC large-scale program)",
+      "category": "china",
+      "confidence": "medium",
+      "sector_deltas": {
+        "industrials": 10,
+        "machinery": 12,
+        "materials": 15,
+        "metals_mining": 15,
+        "chemicals": 8,
+        "copper": 15,
+        "iron_ore": 18,
+        "aluminum": 10,
+        "nickel": 8,
+        "energy_ep": 8,
+        "wti": 6,
+        "consumer_discretionary": 5,
+        "consumer_staples": 3,
+        "semiconductors": 5,
+        "fx_aud": 8,
+        "fx_cnh": 5,
+        "fx_mxn": 4,
+        "commodities_energy": 6,
+        "credit_em": 5
+      }
+    },
+
+    "CHINA_PROPERTY_CRISIS_ESCALATION": {
+      "label": "Major Chinese developer default / property sector escalation",
+      "category": "china",
+      "confidence": "high",
+      "sector_deltas": {
+        "materials":              -15,
+        "metals_mining":          -15,
+        "copper":                 -12,
+        "iron_ore":               -20,
+        "aluminum":               -8,
+        "industrials":            -8,
+        "energy_ep":              -6,
+        "wti":                    -5,
+        "fx_aud":                 -10,
+        "fx_cnh":                 -8,
+        "fx_em":                  -8,
+        "credit_em":              -10,
+        "financials":             -5
+      }
+    },
+
+    "OPEC_PRODUCTION_CUT": {
+      "label": "OPEC+ surprise production cut (>500kb/d)",
+      "category": "energy",
+      "confidence": "high",
+      "sector_deltas": {
+        "energy_ep": 15,
+        "oil_services": 10,
+        "refining": 8,
+        "industrials":            -5,
+        "transportation":         -8,
+        "consumer_discretionary": -6,
+        "consumer_staples":       -4,
+        "chemicals":              -6,
+        "utilities":              -4,
+        "wti": 15,
+        "brent": 15,
+        "nat_gas": 3,
+        "gold": 3,
+        "fx_usd":                 -2,
+        "fx_cad": 5
+      }
+    },
+
+    "OPEC_PRODUCTION_INCREASE": {
+      "label": "OPEC+ surprise production increase (>500kb/d)",
+      "category": "energy",
+      "confidence": "high",
+      "sector_deltas": {
+        "energy_ep":              -12,
+        "oil_services":           -10,
+        "refining":               -5,
+        "industrials": 4,
+        "transportation": 6,
+        "consumer_discretionary": 5,
+        "consumer_staples": 3,
+        "chemicals": 5,
+        "utilities": 3,
+        "wti":                    -12,
+        "brent":                  -12,
+        "fx_cad":                 -5
+      }
+    },
+
+    "STRAIT_OF_HORMUZ_DISRUPTION": {
+      "label": "Strait of Hormuz supply disruption (>3mb/d)",
+      "category": "geopolitical",
+      "confidence": "high",
+      "note": "~20% of global oil/gas transits the strait. Sulfur supply also disrupted (45% of global sulfur from Gulf).",
+      "sector_deltas": {
+        "energy_ep": 18,
+        "oil_services": 8,
+        "refining": 12,
+        "lng": 12,
+        "aerospace_defense": 12,
+        "transportation":         -14,
+        "consumer_discretionary": -10,
+        "autos":                  -8,
+        "consumer_staples":       -5,
+        "chemicals":              -10,
+        "fertilizers":            -12,
+        "industrials":            -8,
+        "wti": 18,
+        "brent": 20,
+        "nat_gas": 8,
+        "heating_oil": 15,
+        "gold": 10,
+        "fx_usd": 3
+      }
+    },
+
+    "TAIWAN_STRAIT_ESCALATION": {
+      "label": "Taiwan Strait military escalation (blockade-level)",
+      "category": "geopolitical",
+      "confidence": "high",
+      "note": "TSMC = ~90% of leading-edge logic. Existential supply chain event.",
+      "sector_deltas": {
+        "technology":             -30,
+        "semiconductors":         -45,
+        "software":               -15,
+        "ai_cloud":               -25,
+        "hardware":               -35,
+        "cybersecurity": 5,
+        "aerospace_defense": 15,
+        "industrials":            -12,
+        "consumer_discretionary": -15,
+        "materials":              -8,
+        "financials":             -12,
+        "real_estate":            -10,
+        "fx_usd": 10,
+        "gold": 20,
+        "crypto_btc":             -10
+      }
+    },
+
+    "SANCTIONS_NEW_MAJOR": {
+      "label": "Major new sanctions (Russia energy, Iran, etc.)",
+      "category": "geopolitical",
+      "confidence": "medium",
+      "sector_deltas": {
+        "energy_ep": 8,
+        "lng": 10,
+        "aerospace_defense": 6,
+        "financials":             -5,
+        "industrials":            -5,
+        "utilities_eu":           -8,
+        "chemicals_eu":           -10,
+        "fx_usd": 3,
+        "wti": 8,
+        "nat_gas": 8,
+        "gold": 6,
+        "credit_em":              -8
+      }
+    },
+
+    "RECESSION_SIGNAL": {
+      "label": "Recession signal (yield curve inverted >6mo, GDP negative, PMI<47)",
+      "category": "macro",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology":             -15,
+        "semiconductors":         -20,
+        "software":               -10,
+        "hardware":               -18,
+        "financials":             -10,
+        "banks":                  -15,
+        "industrials":            -15,
+        "consumer_discretionary": -20,
+        "autos":                  -20,
+        "retail":                 -18,
+        "travel":                 -20,
+        "energy_ep":              -12,
+        "oil_services":           -15,
+        "materials":              -18,
+        "health_care": 3,
+        "consumer_staples": 5,
+        "utilities": 6,
+        "real_estate":            -8,
+        "credit_hy":              -25,
+        "credit_em":              -15,
+        "wti":                    -15,
+        "copper":                 -15,
+        "gold": 8,
+        "rates_10y": 10,
+        "crypto_btc":             -15
+      }
+    },
+
+    "SOFT_LANDING_CONFIRMED": {
+      "label": "Soft landing confirmed (GDP >2%, inflation <2.5%, unemployment <4.5%)",
+      "category": "macro",
+      "confidence": "medium",
+      "sector_deltas": {
+        "technology": 8,
+        "semiconductors": 10,
+        "software": 10,
+        "financials": 5,
+        "banks": 6,
+        "industrials": 8,
+        "consumer_discretionary": 10,
+        "autos": 8,
+        "retail": 8,
+        "travel": 10,
+        "energy_ep": 5,
+        "materials": 8,
+        "health_care": 3,
+        "real_estate": 6,
+        "credit_hy": 10,
+        "credit_em": 8,
+        "wti": 5,
+        "copper": 8,
+        "crypto_btc": 8
+      }
+    },
+
+    "FDA_MAJOR_DRUG_APPROVAL": {
+      "label": "FDA NDA/BLA approval of major drug ($1B+ peak sales potential)",
+      "category": "regulatory_health",
+      "confidence": "high",
+      "sector_deltas": {
+        "pharma": 8,
+        "biotech": 6,
+        "health_care": 4,
+        "medical_devices": 2
+      }
+    },
+
+    "FDA_MAJOR_DRUG_REJECTION": {
+      "label": "FDA complete response letter / major rejection",
+      "category": "regulatory_health",
+      "confidence": "high",
+      "sector_deltas": {
+        "pharma":                 -6,
+        "biotech":                -12,
+        "health_care":            -3
+      }
+    },
+
+    "IRA_TAX_CREDIT_ROLLBACK": {
+      "label": "IRA clean energy tax credit rollback / phase-out",
+      "category": "regulatory_energy",
+      "confidence": "high",
+      "note": "OBBBA signed Jul 4 2025 — ITC phases out by Dec 31 2027. Residential solar credit ended Dec 31 2025.",
+      "sector_deltas": {
+        "renewables":             -18,
+        "utilities":              -8,
+        "real_estate":            -3,
+        "consumer_discretionary": -3,
+        "technology":             -3,
+        "copper":                 -5,
+        "silver":                 -6,
+        "lithium":                -8
+      }
+    },
+
+    "CRYPTO_ETF_APPROVAL": {
+      "label": "Spot cryptocurrency ETF approval (BTC, ETH, or new asset)",
+      "category": "regulatory_crypto",
+      "confidence": "high",
+      "sector_deltas": {
+        "crypto_btc": 15,
+        "crypto_eth": 12,
+        "crypto_exchanges": 12,
+        "financials": 3,
+        "asset_management": 5
+      }
+    },
+
+    "CRYPTO_REGULATORY_CLARITY": {
+      "label": "Major crypto regulatory clarity (CLARITY Act / GENIUS Act passage)",
+      "category": "regulatory_crypto",
+      "confidence": "high",
+      "note": "GENIUS Act signed Jul 18 2025. CLARITY Act passed House 2025.",
+      "sector_deltas": {
+        "crypto_btc": 12,
+        "crypto_eth": 10,
+        "crypto_exchanges": 14,
+        "financials": 4,
+        "fintech": 6
+      }
+    },
+
+    "CRYPTO_SEC_ENFORCEMENT": {
+      "label": "SEC major enforcement action against crypto exchange/asset",
+      "category": "regulatory_crypto",
+      "confidence": "high",
+      "sector_deltas": {
+        "crypto_btc":             -15,
+        "crypto_eth":             -12,
+        "crypto_exchanges":       -25,
+        "fintech":                -6
+      }
+    },
+
+    "ANTITRUST_TECH_BLOCK": {
+      "label": "FTC/DOJ blocks major tech merger ($10B+)",
+      "category": "regulatory_tech",
+      "confidence": "medium",
+      "sector_deltas": {
+        "technology":             -5,
+        "software":               -6,
+        "semiconductors":         -4,
+        "cybersecurity":          -5,
+        "ai_cloud":               -4
+      }
+    },
+
+    "CHINA_PMI_EXPANSION": {
+      "label": "China Caixin Manufacturing PMI crosses 52",
+      "category": "china",
+      "confidence": "medium",
+      "sector_deltas": {
+        "materials": 8,
+        "metals_mining": 10,
+        "copper": 8,
+        "iron_ore": 10,
+        "aluminum": 6,
+        "energy_ep": 5,
+        "wti": 4,
+        "industrials": 6,
+        "fx_aud": 6,
+        "fx_cnh": 4,
+        "credit_em": 4
+      }
+    },
+
+    "CHINA_PMI_CONTRACTION": {
+      "label": "China Caixin Manufacturing PMI below 48",
+      "category": "china",
+      "confidence": "medium",
+      "sector_deltas": {
+        "materials":              -10,
+        "metals_mining":          -12,
+        "copper":                 -10,
+        "iron_ore":               -15,
+        "aluminum":               -8,
+        "energy_ep":              -6,
+        "wti":                    -5,
+        "industrials":            -7,
+        "fx_aud":                 -8,
+        "fx_cnh":                 -5,
+        "credit_em":              -6
+      }
+    },
+
+    "EIA_CRUDE_INVENTORY_SURPRISE_DRAW": {
+      "label": "EIA weekly crude oil inventory surprise draw (>3Mb vs consensus)",
+      "category": "energy",
+      "confidence": "high",
+      "sector_deltas": {
+        "energy_ep": 5,
+        "oil_services": 3,
+        "refining": 3,
+        "wti": 5,
+        "brent": 4
+      }
+    },
+
+    "EIA_CRUDE_INVENTORY_SURPRISE_BUILD": {
+      "label": "EIA weekly crude oil inventory surprise build (>3Mb vs consensus)",
+      "category": "energy",
+      "confidence": "high",
+      "sector_deltas": {
+        "energy_ep":              -5,
+        "oil_services":           -3,
+        "refining":               -3,
+        "wti":                    -5,
+        "brent":                  -4
+      }
+    },
+
+    "USDA_WASDE_BEARISH": {
+      "label": "USDA WASDE bullish surprise (crop upgrade / stocks increase)",
+      "category": "agriculture",
+      "confidence": "high",
+      "sector_deltas": {
+        "corn":                   -8,
+        "wheat":                  -8,
+        "soybeans":               -10,
+        "commodities_agriculture":-6
+      }
+    },
+
+    "USDA_WASDE_BULLISH": {
+      "label": "USDA WASDE bearish surprise (crop downgrade / stocks reduction)",
+      "category": "agriculture",
+      "confidence": "high",
+      "sector_deltas": {
+        "corn": 8,
+        "wheat": 8,
+        "soybeans": 10,
+        "commodities_agriculture": 6
+      }
+    },
+
+    "HYPERSCALER_CAPEX_RAISE": {
+      "label": "Major hyperscaler capex guidance raise (MSFT/GOOGL/AMZN/META)",
+      "category": "tech_demand",
+      "confidence": "high",
+      "sector_deltas": {
+        "semiconductors": 12,
+        "ai_cloud": 10,
+        "data_center_reits": 8,
+        "utilities": 5,
+        "copper": 5,
+        "silver": 4,
+        "industrials": 4
+      }
+    },
+
+    "CYBER_MANDATE_NEW": {
+      "label": "New major federal cybersecurity mandate (CISA BOD, EO)",
+      "category": "regulatory_tech",
+      "confidence": "medium",
+      "sector_deltas": {
+        "cybersecurity": 14,
+        "ai_cloud": 4,
+        "software": 3,
+        "technology": 3
+      }
+    },
+
+    "BASEL_CAPITAL_RELIEF": {
+      "label": "Basel III capital relief / regulatory capital reduction for banks",
+      "category": "regulatory_finance",
+      "confidence": "high",
+      "note": "Basel III re-proposal March 2026 provided net 4.8% relief for Cat I/II banks",
+      "sector_deltas": {
+        "banks": 12,
+        "financials": 8,
+        "asset_management": 5,
+        "real_estate": 4,
+        "credit_ig": 3
+      }
+    },
+
+    "STRONG_JOBS_REPORT": {
+      "label": "NFP beat (>50K vs consensus, unemployment drops)",
+      "category": "macro",
+      "confidence": "medium",
+      "sector_deltas": {
+        "consumer_discretionary": 5,
+        "retail": 6,
+        "travel": 5,
+        "financials": 3,
+        "real_estate": 3,
+        "technology": 2,
+        "rates_2y":               -4,
+        "rates_10y":              -2,
+        "gold":                   -3,
+        "crypto_btc": 3
+      }
+    },
+
+    "WEAK_JOBS_REPORT": {
+      "label": "NFP miss (>50K below consensus, unemployment rises)",
+      "category": "macro",
+      "confidence": "medium",
+      "sector_deltas": {
+        "consumer_discretionary": -5,
+        "retail":                 -6,
+        "travel":                 -5,
+        "financials":             -3,
+        "real_estate":            -3,
+        "rates_2y": 5,
+        "rates_10y": 3,
+        "gold": 5,
+        "crypto_btc":             -3
+      }
+    },
+
+    "HOT_CPI": {
+      "label": "CPI/PCE print materially above consensus (>0.2% vs expected)",
+      "category": "macro",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology":             -5,
+        "software":               -7,
+        "biotech":                -6,
+        "real_estate":            -8,
+        "utilities":              -5,
+        "consumer_discretionary": -5,
+        "rates_2y":               -6,
+        "rates_10y":              -4,
+        "credit_hy":              -4,
+        "gold": 6,
+        "wti": 2,
+        "fx_usd": 3,
+        "crypto_btc":             -3
+      }
+    },
+
+    "COOL_CPI": {
+      "label": "CPI/PCE print materially below consensus (>0.2% below expected)",
+      "category": "macro",
+      "confidence": "high",
+      "sector_deltas": {
+        "technology": 6,
+        "software": 8,
+        "biotech": 7,
+        "real_estate": 9,
+        "utilities": 6,
+        "consumer_discretionary": 5,
+        "rates_2y": 7,
+        "rates_10y": 5,
+        "credit_hy": 5,
+        "gold":                   -4,
+        "fx_usd":                 -3,
+        "crypto_btc": 4
+      }
+    }
+  },
+
+  "baseline_scores_april_2026": {
+    "_note": "Current heatmap baseline scores as of April 15 2026. These represent composite policy environment scores before live event adjustments.",
+    "technology":             52,
+    "semiconductors":         45,
+    "software":               54,
+    "cybersecurity":          58,
+    "ai_cloud":               60,
+    "hardware":               46,
+    "financials":             60,
+    "banks":                  65,
+    "banks_regional":         60,
+    "insurance_life":         62,
+    "insurance_pc":           38,
+    "insurance_reinsurance":  57,
+    "asset_management":       62,
+    "asset_management_alts":  70,
+    "fintech":                52,
+    "fintech_lending":        46,
+    "industrials":            52,
+    "aerospace_defense":      68,
+    "transportation":         42,
+    "machinery":              52,
+    "construction":           50,
+    "consumer_discretionary": 44,
+    "autos":                  42,
+    "retail":                 46,
+    "travel":                 46,
+    "consumer_staples":       50,
+    "beverage":               50,
+    "food":                   50,
+    "agri_business":          48,
+    "energy_ep":              62,
+    "oil_services":           55,
+    "refining":               65,
+    "renewables":             35,
+    "materials":              55,
+    "metals_mining":          55,
+    "chemicals_specialty":    58,
+    "chemicals_commodity":    48,
+    "fertilizers":            53,
+    "paper_packaging":        52,
+    "health_care":            55,
+    "pharma":                 54,
+    "biotech":                52,
+    "medical_devices":        55,
+    "providers":              50,
+    "utilities":              48,
+    "utilities_electric":     48,
+    "utilities_water":        52,
+    "real_estate":            45,
+    "residential_reits":      44,
+    "commercial_reits":       40,
+    "data_center_reits":      65,
+    "communications":         50,
+    "media":                  48,
+    "telecom":                50,
+    "fx_g10":                 50,
+    "fx_usd":                 44,
+    "fx_eur":                 52,
+    "fx_jpy":                 62,
+    "fx_gbp":                 48,
+    "fx_aud":                 50,
+    "fx_cad":                 48,
+    "fx_em":                  50,
+    "fx_cnh":                 42,
+    "fx_mxn":                 52,
+    "fx_brl":                 54,
+    "fx_inr":                 50,
+    "rates_2y_ust":           52,
+    "rates_10y_ust":          44,
+    "rates_30y_ust":          40,
+    "rates_tips":             50,
+    "rates_bund":             52,
+    "rates_gilt":             45,
+    "credit_ig":              46,
+    "credit_hy":              44,
+    "credit_em":              52,
+    "commodities_gold":       72,
+    "commodities_silver":     68,
+    "commodities_copper":     65,
+    "commodities_aluminum":   58,
+    "commodities_lithium":    38,
+    "commodities_uranium":    62,
+    "commodities_iron_ore":   42,
+    "commodities_nickel":     47,
+    "commodities_wti":        62,
+    "commodities_brent":      63,
+    "commodities_nat_gas":    58,
+    "commodities_lng":        65,
+    "commodities_coal_thermal":50,
+    "commodities_coal_met":   58,
+    "commodities_gasoline":   60,
+    "commodities_heating_oil":65,
+    "commodities_corn":       50,
+    "commodities_wheat":      50,
+    "commodities_soybeans":   43,
+    "commodities_sugar":      52,
+    "commodities_coffee":     55,
+    "commodities_cocoa":      58,
+    "commodities_cotton":     45,
+    "commodities_oj":         70,
+    "commodities_cattle":     62,
+    "commodities_hogs":       60,
+    "crypto_btc":             72,
+    "crypto_eth":             65,
+    "crypto_l1_basket":       60,
+    "crypto_exchanges":       65
+  }
+}

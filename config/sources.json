@@ -1,0 +1,615 @@
+{
+  "_meta": {
+    "version": "2026-04-15",
+    "description": "Comprehensive data source registry for MapperLab.co macro heatmap. Aggregated from central banks, fiscal/regulatory agencies, economic data APIs, trade policy, and geopolitical sources.",
+    "notes": "OFAC RSS retired Jan 31 2025 — use XML downloads. PBoC has no RSS — use HTML polling. BIS CBPOL API covers 40+ central banks in one dataset."
+  },
+
+  "central_banks": {
+    "fed": {
+      "name": "Federal Reserve (FOMC)",
+      "region": "US",
+      "type": "primary",
+      "policy_rate_series": "DFF",
+      "decision_frequency": "8x/year",
+      "feeds": [
+        "https://www.federalreserve.gov/feeds/press_monetary.xml",
+        "https://www.federalreserve.gov/feeds/press_all.xml",
+        "https://www.federalreserve.gov/feeds/speeches.xml",
+        "https://www.federalreserve.gov/feeds/press_bcreg.xml",
+        "https://www.federalreserve.gov/feeds/press_enforcement.xml",
+        "https://www.federalreserve.gov/feeds/h15.xml",
+        "https://www.federalreserve.gov/feeds/h8.xml"
+      ],
+      "apis": {
+        "fred_funds_rate": "https://api.stlouisfed.org/fred/series/observations?series_id=DFF&file_type=json&limit=1&sort_order=desc&api_key={FRED_API_KEY}",
+        "fred_balance_sheet": "https://api.stlouisfed.org/fred/series/observations?series_id=WALCL&file_type=json&limit=1&sort_order=desc&api_key={FRED_API_KEY}"
+      },
+      "signals": ["rate_decision", "fomc_statement", "dot_plot", "balance_sheet_qe_qt", "beige_book", "speeches"],
+      "sectors_impacted": ["ALL"]
+    },
+
+    "ecb": {
+      "name": "European Central Bank",
+      "region": "EU",
+      "type": "primary",
+      "policy_rate_series": "ECB_MRO",
+      "decision_frequency": "8x/year",
+      "feeds": [
+        "https://www.ecb.europa.eu/rss/press.html",
+        "https://www.ecb.europa.eu/rss/pub.html",
+        "https://www.ecb.europa.eu/rss/blog.html",
+        "https://www.ecb.europa.eu/rss/fxref-usd.html"
+      ],
+      "apis": {
+        "mro_rate": "https://data-api.ecb.europa.eu/service/data/FM/B.U2.EUR.4F.KR.MRR_FR.LEV?format=csvdata&lastNObservations=1",
+        "deposit_rate": "https://data-api.ecb.europa.eu/service/data/FM/B.U2.EUR.4F.KR.DFR.LEV?format=csvdata&lastNObservations=1"
+      },
+      "signals": ["rate_decision", "asset_purchases", "tltro", "forward_guidance", "economic_bulletin"],
+      "sectors_impacted": ["financials", "real-estate", "fx", "rates", "communications"]
+    },
+
+    "boe": {
+      "name": "Bank of England (MPC)",
+      "region": "UK",
+      "type": "primary",
+      "decision_frequency": "8x/year",
+      "feeds": [
+        "https://www.bankofengland.co.uk/rss"
+      ],
+      "feeds_note": "BoE may return 403 to automated fetchers — set User-Agent header",
+      "apis": {
+        "bank_rate": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&SeriesCodes=IUDBEDR&CSVF=TN&UsingCodes=Y"
+      },
+      "signals": ["rate_decision", "mpc_minutes", "monetary_policy_report", "qe_apf", "speeches"],
+      "sectors_impacted": ["financials", "real-estate", "fx", "rates"]
+    },
+
+    "boj": {
+      "name": "Bank of Japan",
+      "region": "JP",
+      "type": "primary",
+      "decision_frequency": "~8x/year",
+      "feeds": [
+        "https://www.boj.or.jp/en/rss/whatsnew.xml"
+      ],
+      "apis": {
+        "call_rate": "https://www.stat-search.boj.or.jp/api/v1/getDataCode?lang=en&db=FM01&code=STRDCLUCON&format=json"
+      },
+      "signals": ["rate_decision", "ycc_parameters", "jgb_purchases", "tankan", "speeches"],
+      "sectors_impacted": ["fx", "rates", "financials"],
+      "note": "BoJ normalization = major JPY carry trade unwind signal; global risk-off"
+    },
+
+    "snb": {
+      "name": "Swiss National Bank",
+      "region": "CH",
+      "type": "primary",
+      "decision_frequency": "4x/year",
+      "feeds": [
+        "https://www.snb.ch/public/en/rss/mopo",
+        "https://www.snb.ch/public/en/rss/pressrel",
+        "https://www.snb.ch/public/en/rss/speeches",
+        "https://www.snb.ch/public/en/rss/interestRates",
+        "https://www.snb.ch/public/en/rss/exchangeRates",
+        "https://www.snb.ch/public/en/rss/news"
+      ],
+      "apis": {
+        "saron": "https://data.snb.ch/api/cube/snbgwdzid/data/csv/en?dimSel=D0(SARON)&fromDate=2025-01-01"
+      },
+      "signals": ["rate_decision", "fx_intervention", "inflation_forecast"],
+      "sectors_impacted": ["fx", "financials"]
+    },
+
+    "rba": {
+      "name": "Reserve Bank of Australia",
+      "region": "AU",
+      "type": "primary",
+      "decision_frequency": "8x/year",
+      "feeds": [
+        "https://www.rba.gov.au/rss/rss-cb-media-releases.xml",
+        "https://www.rba.gov.au/rss/rss-cb-smp.xml",
+        "https://www.rba.gov.au/rss/rss-cb-speeches.xml",
+        "https://www.rba.gov.au/rss/rss-cb-exchange-rates.xml"
+      ],
+      "signals": ["rate_decision", "smp_quarterly", "speeches"],
+      "sectors_impacted": ["fx", "commodities", "financials"],
+      "note": "AUD is a commodity currency — RBA + China demand signals combined"
+    },
+
+    "boc": {
+      "name": "Bank of Canada",
+      "region": "CA",
+      "type": "primary",
+      "decision_frequency": "8x/year",
+      "feeds": [
+        "https://www.bankofcanada.ca/content_type/announcements/feed/",
+        "https://www.bankofcanada.ca/content_type/press-releases/feed/",
+        "https://www.bankofcanada.ca/content_type/speeches/feed/",
+        "https://www.bankofcanada.ca/content_type/mpr/feed/"
+      ],
+      "apis": {
+        "overnight_rate": "https://www.bankofcanada.ca/valet/observations/V39079/json?recent=1",
+        "fx_usdcad": "https://www.bankofcanada.ca/valet/observations/FXUSDCAD/json?recent=1"
+      },
+      "signals": ["rate_decision", "mpr_quarterly", "speeches"],
+      "sectors_impacted": ["fx", "energy", "financials"],
+      "note": "BoC Valet API is the cleanest free central bank API — no auth required"
+    },
+
+    "pboc": {
+      "name": "People's Bank of China",
+      "region": "CN",
+      "type": "primary",
+      "decision_frequency": "monthly_lpr",
+      "feeds": [],
+      "feeds_note": "No official RSS. Poll HTML: https://www.pbc.gov.cn/en/3688229/index.html",
+      "poll_urls": [
+        "https://www.pbc.gov.cn/en/3688229/index.html",
+        "https://www.chinamoney.com.cn/english/bmklpr/"
+      ],
+      "signals": ["lpr_monthly", "rrr_changes", "mlf_rate", "omo_daily"],
+      "sectors_impacted": ["commodities", "fx", "materials", "energy"],
+      "note": "China PMI + PBoC = primary commodity demand signal. PBOC LPR announced 20th of each month."
+    },
+
+    "rbi": {
+      "name": "Reserve Bank of India",
+      "region": "IN",
+      "type": "primary",
+      "decision_frequency": "6x/year",
+      "feeds": [
+        "https://rbi.org.in/pressreleases_rss.xml",
+        "https://rbi.org.in/speeches_rss.xml",
+        "https://rbi.org.in/notifications_rss.xml"
+      ],
+      "signals": ["repo_rate", "crr_slr", "monetary_policy_report"],
+      "sectors_impacted": ["fx", "financials"]
+    },
+
+    "bis": {
+      "name": "Bank for International Settlements",
+      "region": "GLOBAL",
+      "type": "secondary",
+      "feeds": [
+        "https://www.bis.org/doclist/cbspeeches.rss",
+        "https://www.bis.org/doclist/all_pressrels.rss",
+        "https://www.bis.org/doclist/all_statistics.rss"
+      ],
+      "apis": {
+        "all_cb_policy_rates": "https://data.bis.org/topics/CBPOL/BIS,WS_CBPOL,1.0/",
+        "us_policy_rate": "https://data.bis.org/topics/CBPOL/BIS,WS_CBPOL,1.0/M.US",
+        "eu_policy_rate": "https://data.bis.org/topics/CBPOL/BIS,WS_CBPOL,1.0/M.XM",
+        "jp_policy_rate": "https://data.bis.org/topics/CBPOL/BIS,WS_CBPOL,1.0/M.JP",
+        "gb_policy_rate": "https://data.bis.org/topics/CBPOL/BIS,WS_CBPOL,1.0/M.GB",
+        "cn_policy_rate": "https://data.bis.org/topics/CBPOL/BIS,WS_CBPOL,1.0/M.CN"
+      },
+      "note": "BIS CBPOL covers 40+ central banks in one dataset. Best for comparative policy analysis."
+    }
+  },
+
+  "us_fiscal_regulatory": {
+    "treasury": {
+      "name": "US Treasury",
+      "feeds": [],
+      "apis": {
+        "debt_to_penny": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?format=json&sort=-record_date&page[size]=1",
+        "daily_treasury_statement": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/dts_table_1?format=json&sort=-record_date&page[size]=1",
+        "auction_announcements_rss": "https://treasurydirect.gov/TA_WS/securities/announced/rss",
+        "auction_results_rss": "https://treasurydirect.gov/TA_WS/securities/auctioned/rss",
+        "yield_curve_xml": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value={YEAR}"
+      },
+      "ofac": {
+        "sdn_xml": "https://www.treasury.gov/ofac/downloads/sdn.xml",
+        "sdn_csv": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+        "consolidated_xml": "https://www.treasury.gov/ofac/downloads/consolidated/consolidated.xml",
+        "recent_actions": "https://ofac.treasury.gov/recent-actions",
+        "note": "OFAC RSS retired Jan 31 2025. Poll sdn.xml daily — changes are ad hoc."
+      },
+      "sectors_impacted": ["ALL"],
+      "signals": ["fiscal_policy", "debt_ceiling", "sanctions", "yield_curve", "auction_demand"]
+    },
+
+    "sec": {
+      "name": "Securities and Exchange Commission",
+      "feeds": [
+        "https://www.sec.gov/news/pressreleases.rss",
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=8-K&owner=include&count=40&output=atom",
+        "https://www.sec.gov/litigation/litreleases.rss"
+      ],
+      "apis": {
+        "edgar_submissions": "https://data.sec.gov/submissions/CIK{CIK}.json",
+        "edgar_full_text_search": "https://efts.sec.gov/LATEST/search-index?q={QUERY}&forms=8-K&dateRange=custom&startdt={START}&enddt={END}"
+      },
+      "sectors_impacted": ["financials", "technology", "ALL"],
+      "signals": ["enforcement", "rulemaking", "material_event_8k", "crypto_classification"]
+    },
+
+    "cftc": {
+      "name": "Commodity Futures Trading Commission",
+      "feeds": [
+        "https://www.cftc.gov/RSS/RSSENF/rssenf.xml",
+        "https://www.cftc.gov/RSS/RSSST/rssst.xml",
+        "https://www.cftc.gov/RSS/RSSGP/rssgp.xml"
+      ],
+      "cot_data": "https://www.cftc.gov/dea/options/deacmesf.htm",
+      "sectors_impacted": ["financials", "commodities", "crypto"],
+      "signals": ["enforcement", "derivatives_regulation", "cot_positioning"]
+    },
+
+    "federal_reserve_regulatory": {
+      "name": "Federal Reserve (Regulatory)",
+      "feeds": [
+        "https://www.federalreserve.gov/feeds/press_bcreg.xml",
+        "https://www.federalreserve.gov/feeds/press_enforcement.xml",
+        "https://www.federalreserve.gov/feeds/press_orders.xml",
+        "https://www.federalreserve.gov/feeds/regreform.xml"
+      ],
+      "sectors_impacted": ["financials"],
+      "signals": ["basel_capital", "stress_test", "merger_approval", "bank_regulation"]
+    },
+
+    "fdic": {
+      "name": "FDIC",
+      "feeds": ["https://public.govdelivery.com/topics/USFDIC_26/feed.rss"],
+      "sectors_impacted": ["financials"],
+      "signals": ["bank_failure", "deposit_insurance", "cre_stress"]
+    },
+
+    "occ": {
+      "name": "Office of the Comptroller of the Currency",
+      "feeds": [
+        "https://www.occ.gov/rss/occ_news.xml",
+        "https://www.occ.gov/rss/occ_bulletins.xml"
+      ],
+      "sectors_impacted": ["financials"],
+      "signals": ["bank_charter", "rulemaking", "enforcement"]
+    },
+
+    "cfpb": {
+      "name": "Consumer Financial Protection Bureau",
+      "feeds": ["https://www.consumerfinance.gov/about-us/newsroom/feed/"],
+      "sectors_impacted": ["financials"],
+      "signals": ["open_banking", "fintech_regulation", "enforcement"]
+    },
+
+    "fda": {
+      "name": "Food and Drug Administration",
+      "feeds": [
+        "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml"
+      ],
+      "apis": {
+        "drug_approvals": "https://api.fda.gov/drug/drugsfda.json?search=application_docs.action_date:[{START_DATE}+TO+{END_DATE}]&limit=100",
+        "drug_enforcement": "https://api.fda.gov/drug/enforcement.json?search=report_date:[{START_DATE}+TO+{END_DATE}]&limit=100",
+        "device_pma": "https://api.fda.gov/device/pma.json?limit=100",
+        "device_recalls": "https://api.fda.gov/device/recall.json?limit=100"
+      },
+      "sectors_impacted": ["health-care"],
+      "signals": ["nda_approval", "bla_approval", "crl_rejection", "recall", "warning_letter"]
+    },
+
+    "ftc": {
+      "name": "Federal Trade Commission",
+      "feeds": ["https://www.ftc.gov/feeds/press-release.xml"],
+      "apis": {
+        "merger_early_terminations": "https://api.ftc.gov/v0/early-terminations"
+      },
+      "sectors_impacted": ["technology", "health-care", "financials"],
+      "signals": ["merger_block", "consent_decree", "antitrust"]
+    },
+
+    "doj_antitrust": {
+      "name": "DOJ Antitrust Division",
+      "feeds": ["https://www.justice.gov/feeds/opa/justice-news.xml"],
+      "sectors_impacted": ["technology", "health-care", "financials"],
+      "signals": ["merger_challenge", "criminal_cartel"]
+    },
+
+    "epa": {
+      "name": "Environmental Protection Agency",
+      "feeds": ["https://www.epa.gov/newsreleases/search/rss"],
+      "apis": {
+        "envirofacts": "https://data.epa.gov/efservice/"
+      },
+      "sectors_impacted": ["energy", "utilities", "materials", "industrials"],
+      "signals": ["carbon_policy", "emissions_rule", "clean_power_rule"]
+    },
+
+    "ferc": {
+      "name": "Federal Energy Regulatory Commission",
+      "feeds": [
+        "https://ecollection.ferc.gov/api/rssfeed"
+      ],
+      "sectors_impacted": ["energy", "utilities"],
+      "signals": ["lng_terminal_approval", "pipeline_approval", "electric_rate"]
+    },
+
+    "doe": {
+      "name": "Department of Energy",
+      "feeds": ["https://www.energy.gov/articles?view=rss"],
+      "sectors_impacted": ["energy", "utilities"],
+      "signals": ["lng_export_authorization", "spr_release", "nuclear_policy"]
+    },
+
+    "federal_register": {
+      "name": "Federal Register API (all agency rulemakings)",
+      "apis": {
+        "all_final_rules": "https://www.federalregister.gov/api/v1/articles.json?conditions[type]=RULE&order=newest",
+        "proposed_rules": "https://www.federalregister.gov/api/v1/articles.json?conditions[type]=PRORULE&order=newest",
+        "executive_orders": "https://www.federalregister.gov/api/v1/articles.json?conditions[type]=PRESDOCU&conditions[presidential_document_type]=executive_order&order=newest",
+        "by_agency": "https://www.federalregister.gov/api/v1/articles.json?conditions[agencies][]={AGENCY_SLUG}&order=newest"
+      },
+      "note": "Single best API for cross-agency regulatory monitoring. Filter by agency slug."
+    },
+
+    "ustr": {
+      "name": "United States Trade Representative",
+      "feeds": [
+        "https://ustr.gov/rss.xml"
+      ],
+      "urls": {
+        "press_releases": "https://ustr.gov/about-us/policy-offices/press-office/press-releases",
+        "section_301_actions": "https://ustr.gov/issue-areas/enforcement/section-301-investigations/tariff-actions",
+        "tariff_actions": "https://ustr.gov/trade-topics/presidential-tariff-actions"
+      },
+      "sectors_impacted": ["technology", "industrials", "materials", "consumer-discretionary"],
+      "signals": ["section_301_tariff", "section_232_tariff", "trade_deal", "export_control"]
+    },
+
+    "bis_export_controls": {
+      "name": "Bureau of Industry and Security (Export Controls)",
+      "feeds": [],
+      "urls": {
+        "entity_list": "https://www.bis.gov/enforcement/entity-list",
+        "entity_list_csv": "https://www.bis.gov/sites/default/files/documents/license_exception_erp/entity_list.csv",
+        "press_releases": "https://www.bis.gov/news-updates"
+      },
+      "sectors_impacted": ["technology", "industrials"],
+      "signals": ["entity_list_addition", "export_control_rule", "chips_restriction"]
+    }
+  },
+
+  "economic_data_apis": {
+    "fred": {
+      "name": "FRED (St. Louis Fed)",
+      "base_url": "https://api.stlouisfed.org/fred/series/observations",
+      "auth": "api_key parameter (free at fred.stlouisfed.org)",
+      "rate_limit": "120 req/min",
+      "key_series": {
+        "monetary_policy": {
+          "fed_funds_daily": "DFF",
+          "fed_funds_target_lower": "DFEDTARL",
+          "fed_funds_target_upper": "DFEDTARU",
+          "fed_balance_sheet": "WALCL"
+        },
+        "yield_curve": {
+          "treasury_2y": "DGS2",
+          "treasury_5y": "DGS5",
+          "treasury_10y": "DGS10",
+          "treasury_30y": "DGS30",
+          "spread_10y_2y": "T10Y2Y",
+          "spread_10y_3m": "T10Y3M",
+          "mortgage_30y": "MORTGAGE30US",
+          "tips_5y": "DFII5",
+          "tips_10y": "DFII10",
+          "breakeven_5y": "T5YIE",
+          "breakeven_10y": "T10YIE"
+        },
+        "inflation": {
+          "cpi_all": "CPIAUCSL",
+          "cpi_core": "CPILFESL",
+          "pce_core": "PCEPILFE",
+          "ppi_all": "PPIACO",
+          "cpi_shelter": "CUUR0000SAH",
+          "cpi_medical": "CUUR0000SAM",
+          "cpi_energy": "CPIENGSL"
+        },
+        "credit_spreads": {
+          "ig_oas": "BAMLC0A0CM",
+          "bbb_oas": "BAMLC0A4CBBB",
+          "hy_oas": "BAMLH0A0HYM2",
+          "bb_oas": "BAMLH0A1HYBB",
+          "ccc_oas": "BAMLH0A3HYC",
+          "ted_spread": "TEDRATE"
+        },
+        "employment": {
+          "unemployment": "UNRATE",
+          "u6_underemployment": "U6RATE",
+          "nonfarm_payrolls": "PAYEMS",
+          "jobless_claims_initial": "ICSA",
+          "jolts_openings": "JTSJOL"
+        },
+        "gdp_growth": {
+          "real_gdp": "GDPC1",
+          "industrial_production": "INDPRO",
+          "capacity_utilization": "TCU"
+        },
+        "consumer": {
+          "retail_sales": "RETAILSMNSA",
+          "consumer_sentiment": "UMCSENT",
+          "real_disposable_income": "DSPIC96"
+        },
+        "housing": {
+          "housing_starts": "HOUST",
+          "building_permits": "PERMIT",
+          "existing_home_sales": "EXHOSLUSM495S"
+        },
+        "energy_via_fred": {
+          "wti_crude_daily": "DCOILWTICO",
+          "gasoline_weekly": "GASREGCOVW"
+        },
+        "money": {
+          "m2": "M2SL",
+          "discount_window": "DPCREDIT"
+        }
+      }
+    },
+
+    "bls": {
+      "name": "Bureau of Labor Statistics",
+      "endpoint": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+      "auth": "registrationkey in request body (free at bls.gov)",
+      "key_series": {
+        "cpi_all": "CUUR0000SA0",
+        "cpi_core": "CUSR0000SA0L1E",
+        "cpi_shelter": "CUUR0000SAH1",
+        "cpi_medical": "CUUR0000SAM",
+        "ppi_finished_goods": "WPU00000000",
+        "nonfarm_payrolls": "CES0000000001",
+        "manufacturing_employment": "CES3000000001",
+        "financial_employment": "CES5552000001",
+        "health_employment": "CES6562000001",
+        "unemployment_rate": "LNS14000000",
+        "labor_force_participation": "LNS11300000"
+      }
+    },
+
+    "eia": {
+      "name": "Energy Information Administration",
+      "base_url": "https://api.eia.gov/v2/",
+      "auth": "api_key parameter (free at eia.gov/opendata)",
+      "rate_limit": "5000 req/hour",
+      "feeds": [
+        "https://www.eia.gov/rss/todayinenergy.xml",
+        "https://www.eia.gov/rss/press_rss.xml",
+        "https://www.eia.gov/petroleum/gasdiesel/includes/gas_diesel_rss.xml",
+        "https://www.eia.gov/petroleum/heatingoilpropane/includes/hopu_rss.xml"
+      ],
+      "key_series": {
+        "wti_spot": "PET.RWTC.W",
+        "brent_spot": "PET.RBRTE.D",
+        "wti_daily": "PET.RWTC.D",
+        "crude_inventory": "PET.WCESTUS1.W",
+        "gasoline_inventory": "PET.WGTSTUS1.W",
+        "distillate_inventory": "PET.WDISTUS1.W",
+        "crude_production": "PET.MCRFPUS2.M",
+        "henry_hub_daily": "NG.RNGWHHD.D",
+        "ng_storage": "NG.NW2_EPG0_SWO_R48_BCF.W",
+        "gasoline_retail": "PET.EMM_EPM0_PTE_NUS_DPG.W",
+        "heating_oil_ny": "PET.EHO_NUS_DPG.W"
+      },
+      "reports": {
+        "wpsr": "Weekly Petroleum Status Report — Wednesday 10:30 AM ET",
+        "ng_storage": "Weekly Natural Gas Storage — Thursday 10:30 AM ET",
+        "steo": "Short-Term Energy Outlook — monthly 2nd week"
+      }
+    },
+
+    "treasury_yield_curve": {
+      "name": "US Treasury Yield Curve (direct)",
+      "xml_feed": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value={YEAR}",
+      "fiscal_data_api": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/avg_interest_rates?format=json&sort=-record_date&page[size]=1",
+      "note": "Treasury XML is same-day; FRED DGS series has T+1 lag"
+    },
+
+    "usda": {
+      "name": "USDA (Agriculture)",
+      "feeds": ["https://www.usda.gov/rss/latest-releases.xml"],
+      "urls": {
+        "wasde": "https://www.usda.gov/oce/commodity/wasde-report",
+        "crop_progress": "https://www.nass.usda.gov/Publications/National_Crop_Progress/",
+        "export_sales": "https://apps.fas.usda.gov/gats/ExpressQuery1.aspx"
+      },
+      "reports": {
+        "wasde": "Monthly — 2nd Friday 12:00 PM ET. Most market-moving for grain prices.",
+        "crop_progress": "Weekly — Mondays 4:00 PM ET",
+        "export_sales": "Weekly — Thursdays 8:30 AM ET"
+      },
+      "sectors_impacted": ["commodities"]
+    },
+
+    "oecd_cli": {
+      "name": "OECD Composite Leading Indicators (PMI proxy)",
+      "api": "https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/MEI_CLI/LOLITOAA.USA.M/all?format=json",
+      "note": "Best free PMI substitute since ISM removed from FRED in 2016",
+      "update": "Monthly, ~1-month lag"
+    },
+
+    "cbot_commitments": {
+      "name": "CFTC Commitments of Traders (COT)",
+      "url": "https://www.cftc.gov/dea/options/deacmesf.htm",
+      "note": "Weekly speculative positioning in FX, rates, commodity futures. Released Fridays."
+    }
+  },
+
+  "trade_geopolitical": {
+    "wto": {
+      "name": "World Trade Organization",
+      "feeds": ["http://www.wto.org/library/rss/latest_news_e.xml"],
+      "sectors_impacted": ["ALL"],
+      "signals": ["dispute_settlement", "trade_restriction", "tariff_notification"]
+    },
+
+    "opensanctions": {
+      "name": "OpenSanctions (OFAC + 100+ sanction lists)",
+      "api": "https://api.opensanctions.org/",
+      "dataset_url": "https://www.opensanctions.org/datasets/us_ofac_sdn/",
+      "note": "Free tier, daily JSON refresh. Best programmatic alternative to raw OFAC XML parsing."
+    },
+
+    "geopolitical_risk": {
+      "name": "Geopolitical Risk Sources",
+      "sources": [
+        { "name": "CFR Global Conflict Tracker", "url": "https://www.cfr.org/global-conflict-tracker" },
+        { "name": "AEI China-Taiwan Updates", "url": "https://www.aei.org/tag/china-taiwan-update/" },
+        { "name": "PIIE Trade Analysis", "rss": "https://www.piie.com/rss.xml" },
+        { "name": "Politico Economy RSS", "rss": "https://rss.politico.com/economy.xml" }
+      ]
+    }
+  },
+
+  "news_feeds": {
+    "reuters": {
+      "name": "Reuters",
+      "feeds": [
+        "https://feeds.reuters.com/reuters/businessNews",
+        "https://feeds.reuters.com/reuters/topNews"
+      ],
+      "type": "secondary"
+    },
+    "ft": {
+      "name": "Financial Times",
+      "feeds": [
+        "https://www.ft.com/world?format=rss",
+        "https://www.ft.com/markets?format=rss"
+      ],
+      "type": "secondary"
+    },
+    "iea": {
+      "name": "International Energy Agency",
+      "feeds": ["https://www.iea.org/api/rss/news"],
+      "type": "secondary",
+      "sectors_impacted": ["energy", "commodities"]
+    },
+    "imf": {
+      "name": "International Monetary Fund",
+      "apis": {
+        "data": "https://dataservices.imf.org/REST/SDMX_JSON.svc/"
+      },
+      "note": "IMF RSS blocks automated fetchers. Use news page directly or IMF data API for macro data.",
+      "type": "secondary"
+    }
+  },
+
+  "keyword_signals": {
+    "monetary_policy": {
+      "tailwind": ["rate cut", "rate reduction", "dovish", "quantitative easing", "QE", "accommodation", "stimulus", "rate pause", "lower for longer"],
+      "headwind": ["rate hike", "rate increase", "hawkish", "quantitative tightening", "QT", "taper", "restrictive", "raise rates", "normalize policy"]
+    },
+    "fiscal_policy": {
+      "tailwind": ["stimulus package", "fiscal expansion", "infrastructure bill", "tax credit", "CHIPS Act", "subsidies", "government spending"],
+      "headwind": ["sequestration", "spending cuts", "fiscal tightening", "debt ceiling", "budget cuts", "austerity"]
+    },
+    "trade_policy": {
+      "tailwind": ["trade deal", "tariff reduction", "exemption", "MFN", "trade agreement", "export authorization"],
+      "headwind": ["tariff", "trade war", "export control", "Entity List", "Section 301", "Section 232", "sanctions", "OFAC", "retaliatory"]
+    },
+    "regulatory": {
+      "technology_headwind": ["antitrust", "breakup", "divestiture", "DMA", "DSA", "consent decree", "enforcement action", "AI regulation"],
+      "healthcare_tailwind": ["FDA approval", "NDA approved", "BLA approved", "breakthrough designation"],
+      "healthcare_headwind": ["FDA rejection", "complete response letter", "CRL", "clinical hold", "warning letter", "recall"],
+      "financials_tailwind": ["capital relief", "deregulation", "regulatory rollback", "Basel relief"],
+      "financials_headwind": ["capital requirement", "stress test failure", "enforcement action", "bank failure"]
+    }
+  }
+}
