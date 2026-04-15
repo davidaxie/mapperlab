@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+backtest/output/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store

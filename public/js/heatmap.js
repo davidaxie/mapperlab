@@ -25,7 +25,17 @@ export function renderHeatmap(container, data, options = {}) {
     filtered = [...filtered].sort((a, b) => a.score - b.score);
   }
 
-  const parts = [];
+  const scaleBanner = `<div class="score-scale-banner">
+  <span class="scale-hw">▼ Bearish</span>
+  <div class="scale-track">
+    <span class="scale-label scale-label-0">0</span>
+    <span class="scale-label scale-label-50">50 Neutral</span>
+    <span class="scale-label scale-label-100">100</span>
+  </div>
+  <span class="scale-tw">▲ Bullish</span>
+</div>`;
+
+  const parts = [scaleBanner];
   for (const sector of filtered) {
     const sScore = Number(sector.score);
     const sDir   = scoreToDirection(sScore);
@@ -52,11 +62,13 @@ export function renderHeatmap(container, data, options = {}) {
 
     // Build industry cell HTML
     const cellParts = inds.map(ind => {
-      const iScore = Number(ind.score);
-      const iBg    = scoreToBackground(iScore);
-      const iText  = scoreToTextColor(iScore);
-      const iBar   = scoreToBarColor(iScore);
-      const iDir   = scoreToDirection(iScore);
+      const iScore   = Number(ind.score);
+      const iBg      = scoreToBackground(iScore);
+      const iText    = scoreToTextColor(iScore);
+      const iBar     = scoreToBarColor(iScore);
+      const iDataDir = iScore >= 56 ? 'tw' : iScore <= 44 ? 'hw' : 'neutral';
+      const iDirClass = iScore >= 56 ? 'dir-tw' : iScore <= 44 ? 'dir-hw' : 'dir-neutral';
+      const iDirLabel = iScore >= 56 ? '▲ Bullish' : iScore <= 44 ? '▼ Bearish' : '● Neutral';
       const instruments = escHtml(JSON.stringify(ind.instruments ?? []));
 
       return `<div class="industry-cell"
@@ -64,6 +76,7 @@ export function renderHeatmap(container, data, options = {}) {
           data-label="${escHtml(ind.name)}"
           data-sector="${escHtml(sector.name)}"
           data-score="${iScore}"
+          data-dir="${iDataDir}"
           data-instruments="${instruments}"
           role="button"
           tabindex="0"
@@ -72,7 +85,7 @@ export function renderHeatmap(container, data, options = {}) {
         <div class="cell-name">${escHtml(ind.name)}</div>
         <div class="cell-score">${formatScore(iScore)}</div>
         <div class="cell-footer">
-          <span class="cell-dir">${escHtml(iDir)}</span>
+          <span class="cell-dir ${iDirClass}">${iDirLabel}</span>
           <span class="cell-delta"></span>
         </div>
         <div class="cell-score-bar">
@@ -81,14 +94,35 @@ export function renderHeatmap(container, data, options = {}) {
       </div>`;
     });
 
+    // Compute sector breadth
+    const allInds = sector.industries ?? [];
+    const twCount = allInds.filter(i => Number(i.score) >= 56).length;
+    const hwCount = allInds.filter(i => Number(i.score) <= 44).length;
+    const totalInd = allInds.length;
+    let breadthText = '';
+    if (totalInd > 0) {
+      if (twCount > hwCount) breadthText = `${twCount}/${totalInd} bullish`;
+      else if (hwCount > twCount) breadthText = `${hwCount}/${totalInd} bearish`;
+      else breadthText = `${totalInd} neutral`;
+    }
+
+    // Center-anchored bar: fill right of center for bullish, left of center for bearish
+    const barStyle = sScore >= 50
+      ? `left:50%; width:${(sScore - 50) * 2}%; background-color:${escHtml(sBar)}`
+      : `left:${sScore}%; width:${(50 - sScore) * 2}%; background-color:${escHtml(sBar)}`;
+
+    // Direction badge label
+    const sDirLabel = sScore >= 56 ? '▲ Bullish' : sScore <= 44 ? '▼ Bearish' : '● Neutral';
+
     parts.push(`<div class="sector-row" data-id="${escHtml(sector.id)}">
       <div class="sector-row-header">
         <span class="sector-row-name">${escHtml(sector.name)}</span>
         <div class="sector-row-bar">
-          <div class="sector-row-bar-fill" style="width:${sScore}%; background-color:${escHtml(sBar)}"></div>
+          <div class="sector-row-bar-fill" style="${barStyle}"></div>
         </div>
         <span class="sector-row-score" style="color:${escHtml(sText)}">${formatScore(sScore)}</span>
-        <span class="sector-row-dir ${sDirClass}">${escHtml(sDir)}</span>
+        <span class="sector-row-dir ${sDirClass}">${sDirLabel}</span>
+        <span class="sector-breadth">${escHtml(breadthText)}</span>
         <span class="sector-collapse-icon">▾</span>
       </div>
       <div class="industries-wrap">${cellParts.join('')}</div>
@@ -155,9 +189,16 @@ export function applyTransitions(container, newData) {
       const scoreEl = cell.querySelector('.cell-score');
       if (scoreEl) scoreEl.textContent = formatScore(newScore);
 
-      // Update direction label
+      // Update direction label and badge class
       const dirEl = cell.querySelector('.cell-dir');
-      if (dirEl) dirEl.textContent = scoreToDirection(newScore);
+      if (dirEl) {
+        const newDataDir = newScore >= 56 ? 'tw' : newScore <= 44 ? 'hw' : 'neutral';
+        const newDirClass = newScore >= 56 ? 'dir-tw' : newScore <= 44 ? 'dir-hw' : 'dir-neutral';
+        const newDirLabel = newScore >= 56 ? '▲ Bullish' : newScore <= 44 ? '▼ Bearish' : '● Neutral';
+        dirEl.textContent = newDirLabel;
+        dirEl.className = `cell-dir ${newDirClass}`;
+        cell.dataset.dir = newDataDir;
+      }
 
       // Update bar
       const barFill = cell.querySelector('.cell-score-bar-fill');

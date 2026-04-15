@@ -19,7 +19,12 @@ export function renderTicker(trackEl, events) {
   const items = events.slice(0, 30).map(ev => {
     const source   = escHtml(ev.source ?? '');
     const headline = escHtml(ev.headline ?? '');
-    return `<span class="ticker-item"><span class="ti-source">${source}</span>${headline}</span>`;
+    const href = safeHref(ev.url);
+    if (href) {
+      return `<a class="ticker-item" href="${escHtml(href)}" target="_blank" rel="noopener noreferrer"><span class="ti-source">${source}</span>${headline}</a>`;
+    } else {
+      return `<span class="ticker-item"><span class="ti-source">${source}</span>${headline}</span>`;
+    }
   }).join('');
 
   // Double for seamless loop (CSS animates -50%)
