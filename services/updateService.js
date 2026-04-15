@@ -12,6 +12,24 @@
 import { ingestData }    from './dataIngestion.js';
 import { analyzeEvents } from './aiAnalysis.js';
 import { dataStore }     from './dataStore.js';
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname  = dirname(__filename);
+
+// Load correlation cascade config
+let correlationMap = { cascades: [] };
+try {
+  correlationMap = JSON.parse(readFileSync(join(__dirname, '../config/correlation_map.json'), 'utf-8'));
+} catch (e) {
+  console.warn('[updateService] correlation_map.json not found, cascades disabled');
+}
+
+// Confidence multipliers for delta application
+// High-confidence AI/impact_matrix events move the needle more; low-confidence keyword matches less
+const CONFIDENCE_MULT = { high: 1.5, medium: 1.0, low: 0.6 };
 
 // Track event IDs already applied to avoid double-counting on overlapping windows
 const _appliedIds = new Set();
@@ -47,13 +65,42 @@ async function runPipeline(label = 'update') {
     // 2. AI analysis
     const scored = await analyzeEvents(fresh);
 
-    // 3. Apply deltas to store
+    // 3. Apply deltas to store with confidence multiplier
     let appliedCount = 0;
     for (const se of scored) {
+      const confMult = CONFIDENCE_MULT[se.confidence] ?? 1.0;
+
+      // Track scores before this event cycle (for cascade trigger detection)
+      const scoresBefore = {};
+
       for (const [sectorId, delta] of Object.entries(se.sectorDeltas || {})) {
         if (typeof delta === 'number' && !isNaN(delta)) {
-          dataStore.applyDelta(sectorId, delta, se.source, se.headline);
+          const before = dataStore.getScore(sectorId)?.score;
+          if (before !== undefined) scoresBefore[sectorId] = before;
+
+          dataStore.applyDelta(sectorId, delta * confMult, se.source, se.headline);
           appliedCount++;
+        }
+      }
+
+      // Apply correlation cascades
+      for (const cascade of (correlationMap.cascades || [])) {
+        const { source_node, trigger_threshold, direction, secondary_deltas } = cascade;
+        const before = scoresBefore[source_node];
+        if (before === undefined) continue;
+
+        const after = dataStore.getScore(source_node)?.score;
+        if (after === undefined) continue;
+
+        const change = after - before;
+        const triggered = direction === 'up' ? change >= trigger_threshold
+                                             : change <= -trigger_threshold;
+
+        if (triggered) {
+          for (const [targetId, secDelta] of Object.entries(secondary_deltas)) {
+            dataStore.applyDelta(targetId, secDelta * 0.5 * confMult, `cascade:${source_node}`, se.headline);
+            appliedCount++;
+          }
         }
       }
 
