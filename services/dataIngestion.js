@@ -55,22 +55,39 @@ const CB_FEEDS = [
 // ─── FRED series to watch ─────────────────────────────────────────────────────
 const FRED_SERIES = [
   // Yield curve / rates
-  { id: 'DGS2',       label: '2Y Treasury Yield',     sectorHints: ['rates', 'financials'] },
-  { id: 'DGS10',      label: '10Y Treasury Yield',    sectorHints: ['rates', 'real-estate', 'utilities'] },
-  { id: 'T10Y2Y',     label: '10Y-2Y Spread',         sectorHints: ['rates', 'financials'] },
-  { id: 'T10Y3M',     label: '10Y-3M Spread',         sectorHints: ['rates', 'financials'] },
+  { id: 'DGS2',       label: '2Y Treasury Yield',     sectorHints: ['rates', 'financials'],                              threshold: { abs: 0.05  } },
+  { id: 'DGS10',      label: '10Y Treasury Yield',    sectorHints: ['rates', 'real-estate', 'utilities'],                threshold: { abs: 0.05  } },
+  { id: 'T10Y2Y',     label: '10Y-2Y Spread',         sectorHints: ['rates', 'financials'],                              threshold: { abs: 0.05  } },
+  { id: 'T10Y3M',     label: '10Y-3M Spread',         sectorHints: ['rates', 'financials'],                              threshold: { abs: 0.05  } },
   // Inflation
-  { id: 'CPIAUCSL',   label: 'CPI YoY',               sectorHints: ['rates', 'consumer-staples', 'consumer-discretionary'] },
-  { id: 'PCEPILFE',   label: 'Core PCE',              sectorHints: ['rates'] },
+  { id: 'CPIAUCSL',   label: 'CPI YoY',               sectorHints: ['rates', 'consumer-staples', 'consumer-discretionary'], threshold: { abs: 0.1   } },
+  { id: 'PCEPILFE',   label: 'Core PCE',              sectorHints: ['rates'],                                            threshold: { abs: 0.1   } },
   // Employment
-  { id: 'PAYEMS',     label: 'Nonfarm Payrolls',      sectorHints: ['consumer-discretionary', 'financials'] },
-  { id: 'ICSA',       label: 'Initial Jobless Claims',sectorHints: ['consumer-discretionary'] },
+  { id: 'PAYEMS',     label: 'Nonfarm Payrolls',      sectorHints: ['consumer-discretionary', 'financials'],             threshold: { abs: 50    } },
+  { id: 'ICSA',       label: 'Initial Jobless Claims',sectorHints: ['consumer-discretionary'],                           threshold: { abs: 15000 } },
   // Credit spreads
-  { id: 'BAMLC0A0CM', label: 'IG OAS',                sectorHints: ['rates', 'credit'] },
-  { id: 'BAMLH0A0HYM2', label: 'HY OAS',             sectorHints: ['rates', 'credit', 'financials'] },
+  { id: 'BAMLC0A0CM', label: 'IG OAS',                sectorHints: ['rates', 'credit'],                                  threshold: { abs: 10    } },
+  { id: 'BAMLH0A0HYM2', label: 'HY OAS',             sectorHints: ['rates', 'credit', 'financials'],                    threshold: { abs: 20    } },
   // Activity
-  { id: 'DCOILWTICO', label: 'WTI Crude',             sectorHints: ['energy', 'energy-commodities'] },
-  { id: 'GOLDAMGBD228NLBM', label: 'Gold Price',      sectorHints: ['commodities', 'metals'] },
+  { id: 'DCOILWTICO', label: 'WTI Crude',             sectorHints: ['energy', 'energy-commodities'],                     threshold: { abs: 2.0   } },
+  { id: 'GOLDAMGBD228NLBM', label: 'Gold Price',      sectorHints: ['commodities', 'metals'],                            threshold: { abs: 20.0  } },
+
+  // TIER 1 — Regime detection
+  { id: 'VIXCLS',          label: 'VIX',                    sectorHints: ['rates', 'credit', 'financials'],               threshold: { abs: 2.0  } },
+  { id: 'STLFSI4',         label: 'Financial Stress Index',  sectorHints: ['financials', 'credit', 'real-estate'],         threshold: { abs: 0.3  } },
+  { id: 'T5YIE',           label: '5Y Breakeven Inflation',  sectorHints: ['rates', 'real-estate', 'utilities'],           threshold: { abs: 0.10 } },
+  { id: 'T10YIE',          label: '10Y Breakeven Inflation', sectorHints: ['rates', 'commodities'],                        threshold: { abs: 0.10 } },
+  { id: 'BAMLHE00EHYIOAS', label: 'EUR HY OAS',              sectorHints: ['financials', 'fx'],                            threshold: { abs: 30   } },
+
+  // TIER 2 — Activity indicators
+  { id: 'NAPM',            label: 'ISM Mfg PMI',             sectorHints: ['industrials', 'materials', 'energy'],          threshold: { abs: 1.5  } },
+  { id: 'USSLIND',         label: 'Leading Economic Index',  sectorHints: ['consumer-discretionary', 'industrials'],       threshold: { abs: 0.2  } },
+  { id: 'UMCSENT',         label: 'Consumer Sentiment',      sectorHints: ['consumer-discretionary', 'retail'],            threshold: { abs: 3.0  } },
+  { id: 'INDPRO',          label: 'Industrial Production',   sectorHints: ['industrials', 'materials'],                    threshold: { abs: 0.5  } },
+
+  // TIER 3 — Sector-specific
+  { id: 'DRSFRMACBS',      label: '30Y Mortgage Rate',       sectorHints: ['real-estate', 'construction'],                 threshold: { abs: 0.15 } },
+  { id: 'DTWEXBGS',        label: 'USD Trade-Weighted',      sectorHints: ['commodities', 'fx', 'materials'],              threshold: { abs: 1.0  } },
 ];
 
 // ─── EIA series ───────────────────────────────────────────────────────────────
@@ -154,7 +171,8 @@ async function fetchFredSeries(series) {
     const latest = parseFloat(obs[0].value);
     const prev   = parseFloat(obs[1].value);
     const change = latest - prev;
-    if (Math.abs(change) < 0.001) return [];   // no meaningful move
+    const minChange = series.threshold?.abs ?? 0.001;
+    if (Math.abs(change) < minChange) return [];   // no meaningful move
     return [{
       id:          `FRED:${series.id}:${obs[0].date}`,
       source:      'FRED',
