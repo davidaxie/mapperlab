@@ -38,7 +38,9 @@ function setLive(state, label) {
 function rerenderWithFilters() {
   if (!lastHeatmap) return;
   renderHeatmap(heatmapEl, lastHeatmap, { filter: filterState });
-  heatmapEl.addEventListener('cell-click', onCellClick);
+  // Do NOT re-attach cell-click here — the delegation listener on heatmapEl
+  // is already set in the first-render branch of refresh() and persists
+  // across innerHTML replacements on the container element.
 }
 
 // ── Cell click handler ────────────────────────────────────────────────────────
