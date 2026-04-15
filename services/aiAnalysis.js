@@ -2,14 +2,14 @@
  * aiAnalysis.js — Converts ingested events → sector score deltas
  *
  * Strategy:
- *   1. If OPENAI_API_KEY is set: batch events to GPT-4o-mini with a structured prompt.
+ *   1. If ANTHROPIC_API_KEY is set: batch events to Claude Haiku with a structured prompt.
  *   2. Fallback (no API key): keyword-based scoring using impact_matrix.json signals.
  *
  * Returns: ScoredEvent[]
  *   { id, source, headline, sectorDeltas: { [taxonomyId]: number }, confidence }
  */
 
-import OpenAI from 'openai';
+import Anthropic from '@anthropic-ai/sdk';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -27,9 +27,9 @@ try {
   console.warn('[aiAnalysis] Config load warning:', e.message);
 }
 
-const OPENAI_KEY  = process.env.OPENAI_API_KEY || '';
-const OPENAI_MODEL = 'gpt-4o-mini';
-const BATCH_SIZE  = 10;   // events per GPT call
+const ANTHROPIC_KEY  = process.env.ANTHROPIC_API_KEY || '';
+const CLAUDE_MODEL   = 'claude-haiku-4-5-20251001';
+const BATCH_SIZE     = 8;   // slightly smaller batch for Haiku
 
 // ─── keyword signals from sources.json / impact_matrix ───────────────────────
 const TAILWIND_KEYWORDS = [
@@ -106,8 +106,8 @@ function scoreEventKeywords(event) {
   return deltas;
 }
 
-// ─── OpenAI batch scorer ──────────────────────────────────────────────────────
-const openai = OPENAI_KEY ? new OpenAI({ apiKey: OPENAI_KEY }) : null;
+// ─── Anthropic Claude batch scorer ───────────────────────────────────────────
+const anthropic = ANTHROPIC_KEY ? new Anthropic({ apiKey: ANTHROPIC_KEY }) : null;
 
 const TAXONOMY_IDS = [
   'technology','semiconductors','software','cybersecurity','hardware',
@@ -138,7 +138,8 @@ Only score nodes that are clearly and directly affected.
 Taxonomy node IDs you can use:
 ${TAXONOMY_IDS.join(', ')}
 
-Return ONLY valid JSON — an array of objects like:
+Return ONLY valid JSON — no markdown, no explanation, no code fences.
+Just a raw JSON array:
 [
   {
     "id": "<event_id>",
@@ -148,8 +149,8 @@ Return ONLY valid JSON — an array of objects like:
   }
 ]`;
 
-async function scoreWithGPT(events) {
-  if (!openai) return null;
+async function scoreWithClaude(events) {
+  if (!anthropic) return null;
   const payload = events.map(e => ({
     id:       e.id,
     source:   e.source,
@@ -159,22 +160,41 @@ async function scoreWithGPT(events) {
   }));
 
   try {
-    const resp = await openai.chat.completions.create({
-      model: OPENAI_MODEL,
-      response_format: { type: 'json_object' },
+    const resp = await anthropic.messages.create({
+      model:      CLAUDE_MODEL,
+      max_tokens: 1024,
       temperature: 0.2,
+      system: SYSTEM_PROMPT,
       messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user',   content: JSON.stringify({ events: payload }) },
+        {
+          role:    'user',
+          content: JSON.stringify({ events: payload }),
+        },
       ],
     });
 
-    const raw    = resp.choices[0]?.message?.content || '{}';
-    const parsed = JSON.parse(raw);
-    // Accept either { events: [...] } or [...] directly
+    const raw = resp.content[0]?.text || '{}';
+
+    // Claude sometimes wraps JSON in markdown fences — strip them
+    const cleaned = raw.replace(/^```(?:json)?\n?/m, '').replace(/\n?```$/m, '').trim();
+
+    let parsed;
+    try {
+      parsed = JSON.parse(cleaned);
+    } catch {
+      // Try extracting first JSON array or object from the text
+      const match = cleaned.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
+      if (match) {
+        parsed = JSON.parse(match[1]);
+      } else {
+        console.warn('[aiAnalysis] Claude returned non-JSON:', raw.slice(0, 200));
+        return null;
+      }
+    }
+
     return Array.isArray(parsed) ? parsed : (parsed.events || parsed.scored_events || []);
   } catch (e) {
-    console.warn('[aiAnalysis] GPT call failed:', e.message);
+    console.warn('[aiAnalysis] Claude call failed:', e.message);
     return null;
   }
 }
@@ -190,37 +210,37 @@ export async function analyzeEvents(events) {
 
   const results = [];
 
-  if (openai) {
+  if (anthropic) {
     // Batch into chunks of BATCH_SIZE
     const chunks = [];
     for (let i = 0; i < events.length; i += BATCH_SIZE) {
       chunks.push(events.slice(i, i + BATCH_SIZE));
     }
 
-    const batchResults = await Promise.all(chunks.map(chunk => scoreWithGPT(chunk)));
-    const gptScores    = batchResults.flat().filter(Boolean);
+    const batchResults = await Promise.all(chunks.map(chunk => scoreWithClaude(chunk)));
+    const claudeScores = batchResults.flat().filter(Boolean);
 
-    // Build id → gptScore map
-    const gptMap = {};
-    for (const s of gptScores) {
-      if (s?.id) gptMap[s.id] = s;
+    // Build id → claudeScore map
+    const claudeMap = {};
+    for (const s of claudeScores) {
+      if (s?.id) claudeMap[s.id] = s;
     }
 
     for (const event of events) {
-      const gpt = gptMap[event.id];
-      if (gpt?.deltas && Object.keys(gpt.deltas).length > 0) {
+      const claude = claudeMap[event.id];
+      if (claude?.deltas && Object.keys(claude.deltas).length > 0) {
         results.push({
           id:           event.id,
           source:       event.source,
           headline:     event.headline,
           timestamp:    event.timestamp,
           url:          event.url,
-          sectorDeltas: gpt.deltas,
-          confidence:   gpt.confidence || 'medium',
-          reasoning:    gpt.reasoning  || '',
+          sectorDeltas: claude.deltas,
+          confidence:   claude.confidence || 'medium',
+          reasoning:    claude.reasoning  || '',
         });
       } else {
-        // GPT returned nothing for this event — fall back to keywords
+        // Claude returned nothing for this event — fall back to keywords
         const raw = scoreEventKeywords(event);
         if (Object.keys(raw).length > 0) {
           const confidence = raw._confidence || 'low';
@@ -241,8 +261,8 @@ export async function analyzeEvents(events) {
       }
     }
   } else {
-    // No OpenAI key — use keyword scoring for all events
-    console.log('[aiAnalysis] No OPENAI_API_KEY — using keyword fallback');
+    // No Anthropic key — use keyword scoring for all events
+    console.log('[aiAnalysis] No ANTHROPIC_API_KEY — using keyword fallback');
     for (const event of events) {
       const raw = scoreEventKeywords(event);
       if (Object.keys(raw).length > 0) {
