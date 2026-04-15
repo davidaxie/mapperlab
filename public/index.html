@@ -3,11 +3,206 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MapperLab</title>
+  <title>MapperLab - Political Tailwind / Headwind Mapper</title>
+  <meta name="description" content="Real-time macro heatmap. 63 sectors scored by AI from live policy events. Know which sectors have tailwinds before you trade." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="landing.css" />
 </head>
 <body>
-  <p style="color:white;padding:40px">Landing coming soon — <a href="/app.html" style="color:#2d88ff">Launch App</a></p>
+
+  <!-- Nav -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" aria-label="MapperLab home">
+        <div class="nav-logo-mark">ML</div>
+        <span class="nav-logo-text">MapperLab</span>
+      </a>
+      <div class="nav-actions">
+        <a href="https://github.com/davidaxie/MapperLab.co"
+           target="_blank" rel="noopener noreferrer"
+           class="btn-ghost">GitHub</a>
+        <a href="/app.html" class="btn-primary">Launch App</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="dot" aria-hidden="true"></span>
+        Real-Time &middot; Political &middot; Macro
+      </div>
+      <h1>Every policy event.<br><em>Scored across 63 sectors.</em></h1>
+      <p class="hero-sub">
+        MapperLab reads central bank decisions, trade actions, and geopolitical
+        shifts &mdash; then maps each one to sector-level tailwinds and headwinds,
+        updated every 15 minutes.
+      </p>
+      <div class="hero-cta-group">
+        <a href="/app.html" class="btn-primary large">Launch App</a>
+        <span class="hero-cta-note">Free &middot; No signup &middot; Updated every 15 min</span>
+      </div>
+    </div>
+
+    <!-- Mini live heatmap -->
+    <div class="hero-preview reveal">
+      <div class="hero-preview-topbar" aria-hidden="true">
+        <div class="topbar-dot red"></div>
+        <div class="topbar-dot yellow"></div>
+        <div class="topbar-dot green"></div>
+        <span class="topbar-url">mapperlab.co/app.html</span>
+      </div>
+      <div id="mini-heatmap" aria-label="Live sector heatmap preview">
+        <div class="mini-sector" style="opacity:0.4">
+          <span class="mini-sector-name">Loading&hellip;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proof Strip -->
+  <div class="proof-strip">
+    <div class="proof-strip-inner reveal reveal-stagger">
+      <div class="proof-item">
+        <strong><span data-count="63">0</span></strong>&nbsp;sectors tracked
+      </div>
+      <div class="proof-item">
+        <strong><span data-count="59">0</span></strong>&nbsp;live sources
+      </div>
+      <div class="proof-item"><strong>Claude AI</strong>&nbsp;powered scoring</div>
+      <div class="proof-item"><strong>15 min</strong>&nbsp;update cycle</div>
+      <div class="proof-item"><strong>NYSE</strong>&nbsp;synced</div>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <section class="how-section">
+    <div class="container">
+      <div class="how-header reveal">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">From headlines to market signals<br>in three steps</h2>
+      </div>
+      <div class="how-grid reveal reveal-stagger">
+        <div class="how-card">
+          <div class="how-icon">&#128240;</div>
+          <div class="how-step">Step 01</div>
+          <h3>Policy Events</h3>
+          <p>59 live sources &mdash; central banks, federal agencies, energy data,
+             financial news, and Reddit macro communities &mdash; stream into
+             MapperLab continuously.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-icon">&#129302;</div>
+          <div class="how-step">Step 02</div>
+          <h3>AI Scoring</h3>
+          <p>Claude Haiku reads each event and scores its directional impact
+             across every relevant sector &mdash; from strong tailwind to strong
+             headwind &mdash; with confidence weighting.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-icon">&#127919;</div>
+          <div class="how-step">Step 03</div>
+          <h3>Your Edge</h3>
+          <p>A color-coded heatmap tells you at a glance which sectors are bullish
+             and which are bearish &mdash; right now, before you place the trade.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Preview -->
+  <section class="preview-section">
+    <div class="container">
+      <div class="preview-header reveal">
+        <div class="live-badge">
+          <span class="live-dot" aria-hidden="true"></span>
+          Live right now
+        </div>
+        <h2 class="section-title">The full macro picture, at a glance</h2>
+        <p class="section-sub">Each row is a sector. Each card is an industry.
+          Blue means bullish tailwind. Red means bearish headwind.</p>
+      </div>
+      <div class="preview-frame reveal">
+        <div class="preview-frame-bar" aria-hidden="true">
+          <div class="topbar-dot red"></div>
+          <div class="topbar-dot yellow"></div>
+          <div class="topbar-dot green"></div>
+          <span class="topbar-url" style="margin-left:8px">mapperlab.co/app.html &mdash; Live Heatmap</span>
+        </div>
+        <div id="full-preview-heatmap">
+          <!-- Populated by landing.js -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-header reveal">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Built for systematic traders</h2>
+      </div>
+      <div class="features-grid reveal reveal-stagger">
+        <div class="feature-card">
+          <div class="feature-icon">&#128308;</div>
+          <h3>Color at a Glance</h3>
+          <p>Blue = tailwind, Red = headwind. Scores 0&ndash;100 with intensity
+             from mild to strong. No jargon required.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#9889;</div>
+          <h3>Real-Time Updates</h3>
+          <p>59 sources &mdash; major financial news, central bank feeds, Reddit
+             macro communities &mdash; update the heatmap every 15 minutes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128506;</div>
+          <h3>63 Sectors &amp; Industries</h3>
+          <p>Technology, Financials, Energy, Crypto, Real Estate and more &mdash;
+             every GICS sector with full industry-level breakdowns.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#128202;</div>
+          <h3>Score History &amp; Sources</h3>
+          <p>Click any industry to see its full score timeline and the exact news
+             events that moved it. Fully traceable signals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="cta-section">
+    <div class="cta-glow" aria-hidden="true"></div>
+    <div class="reveal">
+      <h2 class="section-title">Start reading the macro.</h2>
+      <p class="section-sub">Know your sector tailwinds before the open.
+         Free, no account required.</p>
+      <a href="/app.html" class="btn-primary large">Launch App</a>
+      <p class="cta-note">Free forever &middot; No email required &middot; Open source</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div class="nav-logo-mark" style="width:22px;height:22px;font-size:0.65rem;background:#2d88ff;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">ML</div>
+        <span>MapperLab.co</span>
+        <span style="color:#3e5060">&middot;</span>
+        <span style="color:#3e5060">&copy; 2026</span>
+      </div>
+      <div class="footer-disclaimer">
+        Data is informational only &mdash; not investment advice.
+      </div>
+    </div>
+  </footer>
+
   <script type="module" src="js/landing.js"></script>
 </body>
 </html>
