@@ -61,6 +61,7 @@ export async function fetchSources(id) {
  */
 export async function triggerUpdate() {
   const res = await fetch('/api/update', { method: 'POST' });
+  if (!res.ok) throw new Error(`HTTP ${res.status} for /api/update`);
   return res.json();
 }
 
