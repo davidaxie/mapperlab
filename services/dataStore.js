@@ -172,6 +172,7 @@ const _state = {
   events:    [],   // global event log (newest first)
   updating:  false,
   lastUpdate: null,
+  velocity:  {},   // id → EMA velocity (pts per update cycle)
 };
 
 function _clamp(n) { return Math.max(0, Math.min(100, Math.round(n * 10) / 10)); }
@@ -184,6 +185,7 @@ function _initScores() {
       lastChanged: new Date().toISOString(),
     };
     _state.timeline[id] = [];
+    _state.velocity[id] = 0;
   });
 }
 
@@ -206,6 +208,10 @@ export const dataStore = {
 
   getSources(id) {
     return (_state.scores[id]?.sources ?? []).slice(0, 20);
+  },
+
+  getVelocity(id) {
+    return _state.velocity[id] ?? 0;
   },
 
   getTimeline(id) {
@@ -233,6 +239,7 @@ export const dataStore = {
           score:       iScore?.score ?? 50,
           direction:   _direction(iScore?.score ?? 50),
           intensity:   _intensity(iScore?.score ?? 50),
+          velocity:    _state.velocity[ind.id] ?? 0,
           sources:     (iScore?.sources ?? []).slice(0, 5),
           lastChanged: iScore?.lastChanged ?? null,
           instruments: ind.instruments || [],
@@ -244,6 +251,10 @@ export const dataStore = {
         ? industries.reduce((s, i) => s + i.score, 0) / industries.length
         : (sScore?.score ?? 50);
 
+      const twCount = industries.filter(i => i.score >= 56).length;
+      const hwCount = industries.filter(i => i.score <= 44).length;
+      const indCount = industries.length || 1;  // avoid div by zero
+
       return {
         id:          sector.id,
         name:        sector.name,
@@ -251,6 +262,11 @@ export const dataStore = {
         score:       _clamp(mean),
         direction:   _direction(mean),
         intensity:   _intensity(mean),
+        velocity:    _state.velocity[sector.id] ?? 0,
+        breadth: {
+          tw_pct: twCount / indCount,
+          hw_pct: hwCount / indCount,
+        },
         industries,
       };
     });
@@ -271,6 +287,11 @@ export const dataStore = {
     const after  = _clamp(before + delta);
     _state.scores[id].score = after;
     _state.scores[id].lastChanged = new Date().toISOString();
+
+    // Velocity EMA: smooth 7-day-equivalent tracking
+    // Alpha = 0.2 gives roughly 7-period EMA
+    const prevVelocity = _state.velocity[id] ?? 0;
+    _state.velocity[id] = prevVelocity * 0.8 + (after - before) * 0.2;
 
     // Keep up to 10 unique source strings per node
     const src = source || 'Unknown';
