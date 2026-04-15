@@ -84,6 +84,7 @@ function scoreEventKeywords(event) {
         for (const [sector, delta] of Object.entries(impacts.sector_deltas)) {
           deltas[sector] = (deltas[sector] || 0) + delta;
         }
+        deltas._confidence = impacts.confidence || 'medium';
         return deltas;
       }
     }
@@ -220,18 +221,22 @@ export async function analyzeEvents(events) {
         });
       } else {
         // GPT returned nothing for this event — fall back to keywords
-        const kd = scoreEventKeywords(event);
-        if (Object.keys(kd).length > 0) {
-          results.push({
-            id:           event.id,
-            source:       event.source,
-            headline:     event.headline,
-            timestamp:    event.timestamp,
-            url:          event.url,
-            sectorDeltas: kd,
-            confidence:   'low',
-            reasoning:    'keyword fallback',
-          });
+        const raw = scoreEventKeywords(event);
+        if (Object.keys(raw).length > 0) {
+          const confidence = raw._confidence || 'low';
+          const { _confidence, ...sectorDeltas } = raw;
+          if (Object.keys(sectorDeltas).length > 0) {
+            results.push({
+              id:           event.id,
+              source:       event.source,
+              headline:     event.headline,
+              timestamp:    event.timestamp,
+              url:          event.url,
+              sectorDeltas,
+              confidence,
+              reasoning:    'keyword fallback',
+            });
+          }
         }
       }
     }
@@ -239,18 +244,22 @@ export async function analyzeEvents(events) {
     // No OpenAI key — use keyword scoring for all events
     console.log('[aiAnalysis] No OPENAI_API_KEY — using keyword fallback');
     for (const event of events) {
-      const kd = scoreEventKeywords(event);
-      if (Object.keys(kd).length > 0) {
-        results.push({
-          id:           event.id,
-          source:       event.source,
-          headline:     event.headline,
-          timestamp:    event.timestamp,
-          url:          event.url,
-          sectorDeltas: kd,
-          confidence:   'low',
-          reasoning:    'keyword fallback',
-        });
+      const raw = scoreEventKeywords(event);
+      if (Object.keys(raw).length > 0) {
+        const confidence = raw._confidence || 'low';
+        const { _confidence, ...sectorDeltas } = raw;
+        if (Object.keys(sectorDeltas).length > 0) {
+          results.push({
+            id:           event.id,
+            source:       event.source,
+            headline:     event.headline,
+            timestamp:    event.timestamp,
+            url:          event.url,
+            sectorDeltas,
+            confidence,
+            reasoning:    'keyword fallback',
+          });
+        }
       }
     }
   }
