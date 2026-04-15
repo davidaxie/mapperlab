@@ -1,0 +1,63 @@
+{"date": "2026-04-15", "node_id": "technology", "node_type": "sector", "name": "Technology", "score": 50.8, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "semiconductors", "node_type": "industry", "name": "Semiconductors", "score": 45.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "software", "node_type": "industry", "name": "Software", "score": 53.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "cybersecurity", "node_type": "industry", "name": "Cybersecurity", "score": 57.5, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "hardware", "node_type": "industry", "name": "Hardware", "score": 46.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "financials", "node_type": "sector", "name": "Financials", "score": 55.9, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "banks", "node_type": "industry", "name": "Banks", "score": 64, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "insurance", "node_type": "industry", "name": "Insurance", "score": 39, "direction": "headwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "asset-management", "node_type": "industry", "name": "Asset Management", "score": 68.5, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "fintech", "node_type": "industry", "name": "FinTech", "score": 52, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "industrials", "node_type": "sector", "name": "Industrials", "score": 51.6, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "aerospace-defense", "node_type": "industry", "name": "Aerospace & Defense", "score": 66.5, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "transportation", "node_type": "industry", "name": "Transportation", "score": 42.5, "direction": "headwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "machinery", "node_type": "industry", "name": "Machinery", "score": 52, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "construction", "node_type": "industry", "name": "Construction", "score": 45.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "consumer-discretionary", "node_type": "sector", "name": "Consumer Discretionary", "score": 45.2, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "autos", "node_type": "industry", "name": "Autos / EV", "score": 42.5, "direction": "headwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "retail", "node_type": "industry", "name": "Retail", "score": 46.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "travel", "node_type": "industry", "name": "Travel & Leisure", "score": 46.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "consumer-staples", "node_type": "sector", "name": "Consumer Staples", "score": 52.3, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "beverage", "node_type": "industry", "name": "Beverage", "score": 54.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "food", "node_type": "industry", "name": "Food & HPC", "score": 54.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "agri-business", "node_type": "industry", "name": "Agri Business", "score": 48, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "energy", "node_type": "sector", "name": "Energy", "score": 52.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "upstream", "node_type": "industry", "name": "E&P", "score": 55.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "services", "node_type": "industry", "name": "Oil Services", "score": 54.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "refining", "node_type": "industry", "name": "Refining & Marketing", "score": 64, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "renewables", "node_type": "industry", "name": "Renewables", "score": 36, "direction": "headwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "materials", "node_type": "sector", "name": "Materials", "score": 47.8, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "metals-mining", "node_type": "industry", "name": "Metals & Mining", "score": 48, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "chemicals", "node_type": "industry", "name": "Chemicals", "score": 45.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "paper", "node_type": "industry", "name": "Paper & Packaging", "score": 50, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "health-care", "node_type": "sector", "name": "Health Care", "score": 51.4, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "pharma", "node_type": "industry", "name": "Pharma", "score": 53.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "biotech", "node_type": "industry", "name": "Biotech", "score": 52, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "medical-devices", "node_type": "industry", "name": "Medical Devices", "score": 54.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "providers", "node_type": "industry", "name": "Providers", "score": 45.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "utilities", "node_type": "sector", "name": "Utilities", "score": 55, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "electric", "node_type": "industry", "name": "Electric Utilities", "score": 54.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "water", "node_type": "industry", "name": "Water Utilities", "score": 55.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "real-estate", "node_type": "sector", "name": "Real Estate", "score": 47.3, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "residential", "node_type": "industry", "name": "Residential REITs", "score": 44.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "commercial", "node_type": "industry", "name": "Commercial REITs", "score": 33.5, "direction": "headwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "data-center", "node_type": "industry", "name": "Data Center REITs", "score": 64, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "communications", "node_type": "sector", "name": "Communications", "score": 54.8, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "media", "node_type": "industry", "name": "Media", "score": 59.5, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "telecom", "node_type": "industry", "name": "Telecom", "score": 50, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "fx", "node_type": "sector", "name": "FX", "score": 44.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "g10", "node_type": "industry", "name": "G10 Majors", "score": 46.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "em-fx", "node_type": "industry", "name": "EM FX Basket", "score": 42.5, "direction": "headwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "rates", "node_type": "sector", "name": "Rates / Credit", "score": 46, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "ust", "node_type": "industry", "name": "US Treasuries", "score": 44.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "bunds", "node_type": "industry", "name": "Bunds & Gilts", "score": 48, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "credit", "node_type": "industry", "name": "Credit", "score": 45.5, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "commodities", "node_type": "sector", "name": "Commodities", "score": 52.6, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "metals", "node_type": "industry", "name": "Metals", "score": 70.5, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "energy-commodities", "node_type": "industry", "name": "Energy", "score": 52, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "agriculture", "node_type": "industry", "name": "Agriculture", "score": 42.5, "direction": "headwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "livestock", "node_type": "industry", "name": "Livestock", "score": 50, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "lumber", "node_type": "industry", "name": "Forestry / Wood", "score": 48, "direction": "neutral", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "crypto", "node_type": "sector", "name": "Crypto", "score": 67.3, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "majors", "node_type": "industry", "name": "Majors", "score": 70.5, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
+{"date": "2026-04-15", "node_id": "exchanges", "node_type": "industry", "name": "Exchanges", "score": 64, "direction": "tailwind", "velocity": 0, "tw_pct": null, "hw_pct": null}
