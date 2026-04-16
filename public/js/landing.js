@@ -58,18 +58,20 @@ const counterObserver = new IntersectionObserver(
 );
 document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
 
-// ---- Score helpers ----------------------------------------------------------
+// ---- Score helpers (light cream theme) --------------------------------------
+// Text colors on light backgrounds — dark navy for bullish, dark red for bearish
 function scoreColor(s) {
-  if (s >= 60) return '#90c4ff';
-  if (s >= 55) return '#7ab8f5';
-  if (s >  45) return '#7a909e';
-  if (s >  40) return '#f0a0a0';
-  return '#ff8888';
+  if (s >= 60) return '#0d2347';
+  if (s >= 55) return '#163a72';
+  if (s >  45) return '#5a6878';
+  if (s >  40) return '#8b3030';
+  return '#7c1e1e';
 }
+// Bar fill colors — dark navy (bullish), dark red (bearish), mid-gray (neutral)
 function scoreBarColor(s) {
-  if (s >= 55) return '#2d88ff';
-  if (s <= 45) return '#d94040';
-  return '#3e5060';
+  if (s >= 55) return '#163a72';
+  if (s <= 45) return '#9b2626';
+  return '#c8c1b5';
 }
 function scoreLabel(s) {
   if (s >= 56) return '&#9650; Bullish';
@@ -86,15 +88,16 @@ function centerBar(s, color) {
   const w = ((50 - s) * 2).toFixed(1);
   return `left:${pct}%;width:${w}%;background:${color}`;
 }
-// Interpolate background color (neutral <-> tw/hw)
+// Interpolate background color (cream neutral <-> tinted tw/hw) for industry cards
 function scoreBg(s) {
-  const n = [17, 24, 32];
-  const tw = [11, 65, 120];
-  const hw = [107, 26, 26];
+  // neutral = cream white; bullish = pale blue-navy; bearish = pale rose
+  const n  = [237, 233, 225]; // #ede9e1 cream
+  const tw = [214, 224, 243]; // pale navy-blue tint
+  const hw = [243, 220, 220]; // pale rose tint
   const [from, to, t] = s >= 50
     ? [n, tw, (s - 50) / 50]
     : [n, hw, (50 - s) / 50];
-  const g = Math.pow(t, 0.7);
+  const g = Math.pow(t, 0.65);
   const lerp = (a, b) => Math.round(a + (b - a) * g);
   return `rgb(${lerp(from[0],to[0])},${lerp(from[1],to[1])},${lerp(from[2],to[2])})`;
 }
@@ -152,9 +155,9 @@ async function loadFullPreview() {
     const data = await res.json();
     sectors = data.sectors ?? [];
   } catch {
-    container.innerHTML = `<div style="padding:32px;text-align:center;color:#3e5060;font-size:0.85rem">
+    container.innerHTML = `<div style="padding:32px;text-align:center;color:#5a6878;font-size:0.85rem">
       Live data loads when the server is running.
-      <br><a href="/app.html" style="color:#2d88ff;text-decoration:none">Launch App</a>
+      <br><a href="/app.html" style="color:#0d2347;text-decoration:none;font-weight:600">Launch App</a>
     </div>`;
     return;
   }
@@ -166,19 +169,19 @@ async function loadFullPreview() {
 
     const cards = (sec.industries ?? []).map(ind => {
       const is = Number(ind.score ?? 50);
-      const ibc = is >= 56 ? '#2d88ff' : is <= 44 ? '#d94040' : '#3e5060';
+      const ibc = scoreBarColor(is);
       const itc = scoreColor(is);
       return `<div style="background:${scoreBg(is)};border-left:3px solid ${ibc};border-radius:5px;padding:8px 10px;min-width:120px;flex:1">
-        <div style="font-size:0.68rem;color:#7a909e;margin-bottom:4px">${esc(ind.name)}</div>
+        <div style="font-size:0.68rem;color:#5a6878;margin-bottom:4px">${esc(ind.name)}</div>
         <div style="font-size:1rem;font-weight:700;font-family:'JetBrains Mono',monospace;color:${itc}">${is.toFixed(1)}</div>
         <div style="font-size:0.62rem;font-weight:600;color:${itc};margin-top:2px">${scoreLabel(is)}</div>
       </div>`;
     }).join('');
 
-    return `<div style="margin-bottom:8px;background:#0d1117;border-radius:6px;overflow:hidden;border:1px solid #21292f">
-      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#131920">
-        <span style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#7a909e;width:160px;flex-shrink:0">${esc(sec.name)}</span>
-        <div style="flex:1;height:5px;background:#1a2230;border-radius:3px;position:relative;overflow:hidden">
+    return `<div style="margin-bottom:8px;background:#f8f6f1;border-radius:6px;overflow:hidden;border:1px solid #ddd8ce">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#ede9e1;border-bottom:1px solid #ddd8ce">
+        <span style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#5a6878;width:160px;flex-shrink:0">${esc(sec.name)}</span>
+        <div style="flex:1;height:5px;background:#d8d3c9;border-radius:3px;position:relative;overflow:hidden">
           <div style="position:absolute;height:100%;top:0;border-radius:3px;${centerBar(ss, sbc)}"></div>
         </div>
         <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:600;color:${stc};width:36px;text-align:right">${ss.toFixed(1)}</span>
