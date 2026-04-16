@@ -2,7 +2,7 @@
 """
 performance_metrics.py — Computes hedge fund-grade performance metrics for backtest results.
 
-Uses empyrical (Quantopian library) for standard Sharpe/Sortino/Calmar calculations.
+Uses native numpy/scipy for Sharpe/Sortino/Calmar calculations (no external quant libs required).
 
 Main function:
     compute(portfolio_returns, benchmark_returns, trades, sector_results) -> dict
@@ -17,7 +17,6 @@ Input types:
 
 import numpy as np
 import pandas as pd
-import empyrical as ep
 from scipy import stats
 
 
@@ -342,21 +341,28 @@ def compute(
     # -----------------------------------------------------------------------
     if len(port) >= 2:
         try:
-            sharpe = float(ep.sharpe_ratio(port, risk_free=0, annualization=252))
+            std = port.std()
+            sharpe = float(port.mean() / std * np.sqrt(252)) if std > 0 else 0.0
             if np.isnan(sharpe) or np.isinf(sharpe):
                 sharpe = 0.0
         except Exception:
             sharpe = 0.0
 
         try:
-            sortino = float(ep.sortino_ratio(port, required_return=0, annualization=252))
+            downside = port[port < 0]
+            down_std = downside.std() if len(downside) > 0 else 0.0
+            sortino = float(port.mean() / down_std * np.sqrt(252)) if down_std > 0 else 0.0
             if np.isnan(sortino) or np.isinf(sortino):
                 sortino = 0.0
         except Exception:
             sortino = 0.0
 
         try:
-            calmar = float(ep.calmar_ratio(port))
+            ann_ret_c = _annualized_return(port)
+            equity_c = (1 + port).cumprod()
+            peak_c = equity_c.cummax()
+            mdd_c = float(((equity_c - peak_c) / peak_c).min()) if len(port) > 1 else 0.0
+            calmar = float(ann_ret_c / abs(mdd_c)) if mdd_c < 0 else 0.0
             if np.isnan(calmar) or np.isinf(calmar):
                 calmar = 0.0
         except Exception:
@@ -373,7 +379,9 @@ def compute(
     # -----------------------------------------------------------------------
     if len(port) >= 2:
         try:
-            max_dd = float(ep.max_drawdown(port))
+            equity_m = (1 + port).cumprod()
+            peak_m = equity_m.cummax()
+            max_dd = float(((equity_m - peak_m) / peak_m).min()) if len(port) > 1 else 0.0
             if np.isnan(max_dd):
                 max_dd = 0.0
         except Exception:

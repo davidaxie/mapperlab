@@ -204,8 +204,22 @@ def main():
 
     # Fetch live data
     print("[snapshot] Fetching heatmap...")
-    heatmap = fetch_scores(args.server_url)
-    status  = fetch_status(args.server_url)
+    try:
+        heatmap = fetch_scores(args.server_url)
+        status  = fetch_status(args.server_url)
+    except (requests.exceptions.HTTPError,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout) as err:
+        print(f"[snapshot] Server unavailable ({type(err).__name__}: {err}) — skipping today's snapshot.")
+        DATA_DIR.mkdir(exist_ok=True)
+        SUMMARY_FILE.write_text(
+            f"# MapperLab Signal Summary — {snapshot_date}\n\n"
+            f"**Status:** Server unavailable — `{args.server_url}` could not be reached.\n\n"
+            f"**Error:** `{err}`\n\n"
+            f"_Snapshot skipped. This is normal when the server is not deployed to this URL._\n"
+        )
+        print(f"[snapshot] Wrote fallback summary to {SUMMARY_FILE}")
+        sys.exit(0)
     print(f"[snapshot] Got {len(heatmap.get('sectors', []))} sectors")
 
     # Create data/ directory
