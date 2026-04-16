@@ -400,10 +400,15 @@ def main() -> None:
     # ------------------------------------------------------------------
     sector_to_industries = _build_sector_to_industries(taxonomy)
 
-    # Determine which sectors have valid ETF data
+    # Determine which sectors have valid ETF data.
+    # Use first_avail_date (first actual trading day in prices) rather than
+    # start_date, which may fall on a weekend/holiday before any data exists.
+    first_avail_date = (
+        prices.index[0].strftime("%Y-%m-%d") if not prices.empty else start_date
+    )
     valid_sectors: dict[str, dict] = {}
     for sector_id, etf_entry in etf_map.items():
-        price = _get_etf_price(prices, etf_entry, start_date)
+        price = _get_etf_price(prices, etf_entry, first_avail_date)
         if price is not None:
             valid_sectors[sector_id] = etf_entry
 
