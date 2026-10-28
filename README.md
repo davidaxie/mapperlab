@@ -1,244 +1,79 @@
-# MapperLab.co - Political Tailwind / Headwind Mapper
+# MapperLab
 
-A TradingView-style heatmap web application that continuously ingests live global policy and macro news from central banks, treasuries, finance ministries, and regulators, converting it into a tailwind vs. headwind heatmap across sectors, industries, and instruments.
+A heatmap showing which sectors have policy and macro tailwinds or headwinds, built from central bank, regulator and market news.
 
-## Features
+## What it does
 
-- **Live Data Ingestion**: Automatically fetches data from:
-  - Federal Reserve (FOMC statements, press releases)
-  - European Central Bank (ECB)
-  - Bank of England (BoE)
-  - US Treasury / OFAC
-  - Reuters, Financial Times
-  - Economic indicators (FRED API)
-  - News APIs
+MapperLab reads the news flow a macro trader watches and turns it into one number per sector and industry. Each score runs from 0 to 100: 50 is neutral, 56 and above is a tailwind, and 44 and below is a headwind. The app shows all 63 nodes (15 sectors and their industries) as a heatmap. Click an industry to see the events that moved it, a sparkline, a timeline and the underlying sources.
 
-- **AI-Powered Analysis**: Uses OpenAI GPT-4 to analyze events and assign tailwind/headwind scores
+A separate Python backtester asks whether those scores would have been worth trading. It replays historical policy events into score histories and trades sector ETFs against them.
 
-- **Interactive Heatmap**: 
-  - Blue = Tailwind (positive)
-  - Red = Headwind (negative)
-  - Gray = Neutral
-  - Click tiles to see detailed sources and timeline
+## How it works
 
-- **Time Windows**: View scores for 24h, 7d, 30d, 90d periods
+**Ingestion** (`services/dataIngestion.js`)
+- Pulls 59 RSS feeds in parallel. Sources include central banks (Fed, ECB, BoE, BoJ, BIS, RBA), the IMF, the Federal Register, the SEC, financial news, crypto news, press-release wires and 17 finance subreddits.
+- With API keys set, it also pulls 23 FRED series and 4 EIA energy series.
+- Items older than 48 hours are dropped, and duplicates are removed by source and title.
 
-- **Source Transparency**: Every score shows the underlying sources used (no model reasoning, just facts)
+**Scoring** (`services/aiAnalysis.js`)
+- Events go to Claude Haiku in batches of 8. The model returns a delta from -15 to +15 for each affected node, plus a confidence level.
+- Without an API key, or when the model returns nothing for an event, a deterministic fallback runs. It matches phrases to 42 named policy events in `config/impact_matrix.json` (for example, a 25bp Fed hike, an OPEC supply cut or semiconductor export controls). Each event carries hand-set deltas per sector, and generic tailwind and headwind keywords cover the rest.
 
-## Setup
+**State** (`services/dataStore.js`, `services/updateService.js`)
+- Deltas are scaled by confidence (high 1.5x, medium 1.0x, low 0.6x).
+- Correlation cascades in `config/correlation_map.json` propagate second-order effects at half strength. For example, a big energy-commodities tailwind pushes transportation, chemicals and retail down.
+- Every cycle, each score decays 1.5% toward 50, so stale news fades.
+- Each node tracks an EMA of its score velocity, and each sector tracks breadth (the share of its industries in tailwind or headwind).
 
-### Prerequisites
+**Backtester** (`backtest/`)
+- `score_replayer.py` replays 65 dated policy events (March 2020 to April 2026) through the impact matrix on the NYSE calendar to rebuild score histories.
+- `signal_engine.py` combines four sub-signals into one composite: level (0.35), 7/14-day momentum (0.30), macro regime (0.20) and industry confluence (0.15). The regime uses VIX, HY OAS, STLFSI4 and the 2s10s curve; in the backtest these are estimated from score proxies. Position size scales with the composite and the regime, capped at 20% per sector, and the engine has explicit exit rules.
+- `run_backtest.py` maps each node to a tradable ETF in `backtest/etf_map.json` (SPDR sector funds plus industry and asset ETFs such as SOXX, KBE, TLT and GLD), trades it using yfinance prices, and benchmarks against SPY.
+- `performance_metrics.py` computes Sharpe, Sortino, Calmar, drawdowns, hit rate by sector and information ratio in plain numpy.
+- `report_generator.py` writes an HTML report with seven Plotly charts.
 
-- Node.js 18+ 
-- npm or yarn
+**Automation** (`.github/workflows/`)
+- `backtest.yml` runs the backtest weekly, with manual dispatch inputs for dates, capital and benchmark.
+- `daily-snapshot.yml` is a weekday after-close job that snapshots scores and signals from a running server into `data/*.jsonl` (via `backtest/daily_snapshot.py`). The committed `data/` files hold one snapshot, from 15 April 2026.
 
-### Installation
+## Tech stack
 
-1. **Clone/Navigate to the project:**
-   ```bash
-   cd MapperLab.co
-   ```
+- **Server:** Node.js (ES modules), Express, node-cron, rss-parser, axios, Anthropic SDK
+- **Frontend:** vanilla JavaScript ES modules and CSS, with no framework and no build step
+- **Backtest:** Python 3.11, pandas, numpy, scipy, yfinance, pandas-market-calendars, Plotly, Jinja2
+- **CI:** GitHub Actions
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+## Running locally
 
-3. **Set up environment variables:**
-   
-   Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-   
-   Edit `.env` and add your API keys:
-   ```env
-   OPENAI_API_KEY=sk-proj-your-key-here
-   FRED_API_KEY=your-fred-key-here  # Optional
-   NEWSAPI_KEY=your-newsapi-key-here  # Optional
-   ```
-
-   **Required:**
-   - `OPENAI_API_KEY`: Get from https://platform.openai.com/api-keys
-   
-   **Optional (for enhanced data):**
-   - `FRED_API_KEY`: Get from https://fred.stlouisfed.org/docs/api/api_key.html
-   - `NEWSAPI_KEY`: Get from https://newsapi.org/register
-
-4. **Start the server:**
-   ```bash
-   npm start
-   ```
-
-   The server will start on http://localhost:3000
-
-   On first run, it will:
-   - Fetch data from all configured sources
-   - Analyze sectors using AI (this may take a few minutes)
-   - Display the heatmap with live scores
-
-## Usage
-
-1. **View the Heatmap**: Open http://localhost:3000 in your browser
-
-2. **Navigate**: 
-   - Click a sector tile to drill down to industries
-   - Click an industry to see instruments
-   - Double-click to navigate back up
-
-3. **View Details**: Click any tile to open the drawer with:
-   - Overview: Score, delta, confidence, trend
-   - Sources: All evidence used for the score
-   - Timeline: Chronological event stream
-   - Related: Correlated tiles
-
-4. **Filter & Search**:
-   - Use time window buttons (24h, 7d, 30d, 90d)
-   - Search by sector/industry name
-   - Toggle color-blind safe view
-   - Filter sources by type (Primary/Secondary)
-
-5. **Watchlist**: Pin industries/instruments to track
-
-## API Endpoints
-
-- `GET /api/heatmap` - Get all scores
-- `GET /api/score/:id` - Get score for specific sector/industry
-- `GET /api/sources/:id` - Get sources for a sector/industry
-- `GET /api/timeline/:id` - Get timeline events
-- `GET /api/taxonomy` - Get taxonomy configuration
-- `GET /api/status` - Get system status
-- `POST /api/update` - Manually trigger data update
-
-## Automatic Updates
-
-The system automatically updates:
-- Every 2 hours: Light refresh (data ingestion)
-- Every 4 hours: Full analysis (data + AI analysis)
-
-## Architecture
-
-- **Backend**: Node.js + Express
-- **Data Ingestion**: RSS feeds, APIs (FRED, NewsAPI)
-- **AI Analysis**: OpenAI GPT-4o-mini
-- **Frontend**: Vanilla JavaScript (no framework)
-- **Storage**: In-memory (can be extended to database)
-
-## Troubleshooting
-
-### "OPENAI_API_KEY not found"
-- Make sure `.env` file exists in the project root
-- Check that the key is correctly set (no quotes, no spaces)
-
-### "API quota exceeded" (429 errors)
-- Check your OpenAI billing/usage
-- Wait for quota reset
-- The system will return neutral scores with low confidence as fallback
-
-### No data showing
-- Wait for initial update to complete (check console logs)
-- Manually trigger update: `POST /api/update`
-- Check that RSS feeds are accessible
-
-### Slow initial load
-- First analysis of all sectors takes 5-10 minutes
-- Subsequent updates are faster (only new data)
-- Consider reducing batch size in `aiAnalysis.js` if hitting rate limits
-
-## Development
-
-### Project Structure
-
-```
-MapperLab.co/
-├── server.js              # Express server
-├── services/
-│   ├── dataIngestion.js   # Fetch from RSS/APIs
-│   ├── aiAnalysis.js      # OpenAI integration
-│   ├── dataStore.js       # In-memory data store
-│   └── updateService.js   # Orchestration
-├── public/
-│   ├── index.html         # Frontend
-│   ├── app.js             # Frontend logic
-│   └── styles.css         # Styling
-├── config/
-│   └── taxonomy.json      # Sector/industry structure
-└── .env                   # Environment variables (not in git)
+```bash
+npm install
+cp .env.example .env      # add ANTHROPIC_API_KEY; FRED_API_KEY and EIA_API_KEY are optional
+npm start                 # or: npm run dev
 ```
 
-### Adding New Data Sources
+The server listens on `PORT` (3001 in `.env.example`, 3000 if unset). The landing page is at `/` and the heatmap app is at `/app.html`. The first scoring pass runs on startup. After that the server runs an update every 2 hours (a second cron every 4 hours lands on the same hours), the app re-reads the scores every 2 minutes, and `POST /api/update` (the Update button in the app) triggers one by hand.
 
-Edit `services/dataIngestion.js` and add to `DATA_SOURCES`:
+Main endpoints: `GET /api/heatmap`, `/api/events`, `/api/score/:id`, `/api/sources/:id`, `/api/timeline/:id`, `/api/taxonomy`, `/api/status`.
 
-```javascript
-newSource: {
-  name: 'Source Name',
-  region: 'US',
-  type: 'primary',
-  feeds: ['https://example.com/rss']
-}
+Backtest:
+
+```bash
+pip install -r backtest/requirements.txt
+python backtest/run_backtest.py --start 2020-01-01 --capital 1000000 --benchmark SPY --output-dir backtest/output
 ```
 
-### Adding New Sectors/Industries
+Output: `report.html`, `metrics.json`, `trades.csv` and `summary.md` in the output directory.
 
-Edit `config/taxonomy.json` and add to the sectors array.
+## Project layout
 
-## License
+- `server.js`: Express server, API routes and the update schedule
+- `services/`: ingestion, scoring, score state and the update pipeline
+- `config/`: feed list (`sources.json`), taxonomy, impact matrix and correlation cascades
+- `public/`: landing page (`index.html`, `landing.css`, `js/landing.js`) and the heatmap app (`app.html`, `styles.css`, `js/`)
+- `backtest/`: the Python backtester and the daily snapshot script
+- `data/`: committed score and signal snapshots
+- `docs/superpowers/plans/`: the implementation plan for the April 2026 frontend redesign
 
-MIT
+## Status
 
-- Check your OpenAI billing/usage
-- Wait for quota reset
-- The system will return neutral scores with low confidence as fallback
-
-### No data showing
-- Wait for initial update to complete (check console logs)
-- Manually trigger update: `POST /api/update`
-- Check that RSS feeds are accessible
-
-### Slow initial load
-- First analysis of all sectors takes 5-10 minutes
-- Subsequent updates are faster (only new data)
-- Consider reducing batch size in `aiAnalysis.js` if hitting rate limits
-
-## Development
-
-### Project Structure
-
-```
-MapperLab.co/
-├── server.js              # Express server
-├── services/
-│   ├── dataIngestion.js   # Fetch from RSS/APIs
-│   ├── aiAnalysis.js      # OpenAI integration
-│   ├── dataStore.js       # In-memory data store
-│   └── updateService.js   # Orchestration
-├── public/
-│   ├── index.html         # Frontend
-│   ├── app.js             # Frontend logic
-│   └── styles.css         # Styling
-├── config/
-│   └── taxonomy.json      # Sector/industry structure
-└── .env                   # Environment variables (not in git)
-```
-
-### Adding New Data Sources
-
-Edit `services/dataIngestion.js` and add to `DATA_SOURCES`:
-
-```javascript
-newSource: {
-  name: 'Source Name',
-  region: 'US',
-  type: 'primary',
-  feeds: ['https://example.com/rss']
-}
-```
-
-### Adding New Sectors/Industries
-
-Edit `config/taxonomy.json` and add to the sectors array.
-
-## License
-
-MIT
+This is a working prototype. Scores live in memory, so a restart rebuilds them from the baseline. There are no automated tests. The backtest's macro regime is estimated from score proxies rather than historical FRED data, so treat its results as research, not a track record. Nothing here is investment advice.
