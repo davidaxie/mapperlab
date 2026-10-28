@@ -20,7 +20,7 @@
     "central-banks"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.89.0",
     "axios": "^1.13.2",
